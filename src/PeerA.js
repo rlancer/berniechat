@@ -14,7 +14,6 @@ export default class PeerA extends Component {
 
     p.on('signal', function (data) {
       console.log('SIGNAL', JSON.stringify(data))
-
     });
 
     p.on('connect', function () {
@@ -27,8 +26,7 @@ export default class PeerA extends Component {
     });
   }
 
-
   render() {
-    return <div>PEER</div>;
+    return <div>PEEREEEER</div>;
   }
 }
