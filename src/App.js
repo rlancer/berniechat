@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import './App.css';
+import system from './logic/system';
 
 const WIDTH = 578, HEIGHT = 400;
 
@@ -97,6 +98,7 @@ class App extends Component {
           <img src="/bern_bot.png" ref={this.botRef}/>
         </div>
         <canvas width="578" height="400" ref={this.canvRef}/>
+        <button onClick={system.getMingler}>BUTTON</button>
       </div>
     );
   }

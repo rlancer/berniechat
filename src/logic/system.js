@@ -1,6 +1,7 @@
 import firebase from './firebase';
 import shortid from 'shortid';
 import Peer from 'simple-peer';
+const availableToMingle = new Map();
 
 let userId = localStorage.getItem("user");
 
@@ -33,19 +34,34 @@ peer.on('data', function (data) {
 const available = firebase.database().ref('available');
 
 available.on('child_added', data => {
-  console.log('added', data.val(), data.key);
+  console.log('child added', data, data.key !== userId);
+  if (data.key !== userId)
+    availableToMingle.set(data.key, data.val());
 });
 
 available.on('child_changed', data => {
-  console.log('chid changed', data);
+  if (data.key !== userId)
+    availableToMingle.set(data.key, data.val());
 });
 
 available.on('child_removed', data => {
-  console.log('removed', data);
+  console.log('child removed', data, data.key !== userId);
+  if (data.key !== userId)
+    availableToMingle.delete(data.key);
 });
 
 export default {
   get userId() {
     return userId;
+  },
+  async getMingler () {
+
+    const ttt = await firebase.database().ref('available').once('value');
+    console.log(ttt, ttt.key, ttt.val());
+
+    console.log('minglers', availableToMingle.size);
+    const r = availableToMingle.values().next().value;
+    console.log(r);
+    return r;
   }
 }
