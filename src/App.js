@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import PeerA from './PeerA';
 import './App.css';
 
 const WIDTH = 578, HEIGHT = 400;
@@ -98,7 +97,6 @@ class App extends Component {
           <img src="/bern_bot.png" ref={this.botRef}/>
         </div>
         <canvas width="578" height="400" ref={this.canvRef}/>
-        <PeerA/>
       </div>
     );
   }

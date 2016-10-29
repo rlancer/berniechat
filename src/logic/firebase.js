@@ -8,8 +8,4 @@ firebase.initializeApp({
   messagingSenderId: "552189031724"
 });
 
-export default firebase;
-
-firebase.database().ref('rr').set({
-  rob: 'lancer'
-});
+export default  firebase;
