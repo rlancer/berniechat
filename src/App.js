@@ -57,6 +57,7 @@ class App extends Component {
 
       (stream) => {
         console.log(stream, this);
+        system.stream = stream;
         this.setupAudio(stream);
       }
       , err=>console.error(err));
@@ -90,15 +91,23 @@ class App extends Component {
     this.ctx.drawImage(this._berBot, 0, 112);
   };
 
+  refTxt = c => this._txt = c;
+  refCb = c => this._cb = c;
+
   render() {
     return (
       <div className="App">
+        <h1>{system.userId}</h1>
         <div style={{display: 'none', flexDirection: 'column'}}>
           <img src="/bern_top.png" ref={this.topRef}/>
           <img src="/bern_bot.png" ref={this.botRef}/>
         </div>
         <canvas width="578" height="400" ref={this.canvRef}/>
-        <button onClick={system.getMingler}>BUTTON</button>
+
+
+        <textarea ref={this.refTxt}/>
+        <input type='checkbox' ref={this.refCb}/>
+        <button onClick={()=>system.connectToClient(this._txt.value)}>BUTTON</button>
       </div>
     );
   }
