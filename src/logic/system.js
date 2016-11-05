@@ -6,7 +6,7 @@ let userId = localStorage.getItem("user");
 
 const updatePing = ()=>firebase.database().ref(`yooo/${userId}`).set({time: (new Date()).getTime()});
 window.setInterval(updatePing, 30000);
-
+updatePing();
 
 if (!userId) {
   userId = shortid.generate();
@@ -23,16 +23,30 @@ const getMingler = async()=> {
 
 const hookMeUpRef = firebase.database().ref(`hookmeup/${userId}`);
 
+let hookingUp = false;
+let peer;
 hookMeUpRef.on('child_added', (data) => {
+
   console.log('HOOK ME UP!!!!!', data.key, data.val());
 
+  if (!hookingUp) {
+    peer = new Peer({initiator: true, trickle: false, stream});
+    peer.on('signal', (signalData)=> {
+      firebase.database().ref(`mystream/${userId}`).set(signalData);
+    });
 
-  // see if it should be initi or not
-  /*const myPeer = new Peer({initiator: true, trickle: false, stream});
+    firebase.database().ref(`mystream/${data.val()}`).on('child_added', (data) => {
+      console.log('CHILD ADDED IN STREA TO CONNECT TO', data.key, data.val());
+    });
+/*
+    firebase.database().ref(`mystream/${data.val()}`).on('child_changed', (data) => {
+      console.log('CHILD UPDATED IN STREA TO CONNECT TO', data);
+    });*/
 
-   myPeer.on('signal', (data)=> {
-   firebase.database().ref(`mystream/${userId}`).set(data);
-   });*/
+
+  }
+
+  hookingUp = true;
 });
 
 let stream = false;
