@@ -8,7 +8,7 @@ class App extends Component {
 
   setupAudio = stream=> {
 
-    window.AudioContext = window.webkitAudioContext || window.AudioContext || window.mozAudioContext;
+    window.AudioContext = window.AudioContext || window.webkitAudioContext || window.mozAudioContext;
 
     const sampleSize = 256;
     const audioContext = new window.AudioContext();
@@ -68,6 +68,10 @@ class App extends Component {
   topRef = c => this._berTop = c;
 
   componentDidMount() {
+
+    console.log(window.location.pathname);
+
+
     this._berBot.onload = () => {
       this.ctx = this._canvas.getContext('2d');
       this.ctx.drawImage(this._berTop, 0, 0);
@@ -105,9 +109,6 @@ class App extends Component {
         <canvas width="578" height="400" ref={this.canvRef}/>
 
 
-        <textarea ref={this.refTxt}/>
-        <input type='checkbox' ref={this.refCb}/>
-        <button onClick={()=>system.connectToClient(this._txt.value)}>BUTTON</button>
       </div>
     );
   }
