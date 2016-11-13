@@ -6,10 +6,12 @@ const WIDTH = 578, HEIGHT = 400;
 
 class App extends Component {
 
+  constructor(props) {
+    super(props);
+    this.state = {joinUrl: false};
+  }
+
   setupAudio = stream=> {
-
-    window.AudioContext = window.AudioContext || window.webkitAudioContext || window.mozAudioContext;
-
     const sampleSize = 256;
     const audioContext = new window.AudioContext();
     const sourceNode = audioContext.createMediaStreamSource(stream);
@@ -49,24 +51,15 @@ class App extends Component {
     javascriptNode.connect(audioContext.destination);
   };
 
-  listen = ()=> {
-
-    navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
-
-    navigator.getUserMedia({audio: true, video: false},
-
-      (stream) => {
-        console.log(stream, this);
-        this.setupAudio(stream);
-      }
-      , err=>console.error(err));
-  };
 
   canvRef = c => this._canvas = c;
   botRef = c => this._berBot = c;
   topRef = c => this._berTop = c;
 
   componentDidMount() {
+
+    system.start(this);
+
     this._berBot.onload = () => {
       this.ctx = this._canvas.getContext('2d');
       this.ctx.drawImage(this._berTop, 0, 0);
@@ -75,8 +68,12 @@ class App extends Component {
       this.startAnimate();
 
     };
-    this.listen();
+
   }
+
+  setJoinURL = joinUrl=> {
+    this.setState({joinUrl});
+  };
 
   i = 0;
   startAnimate = ()=> {
@@ -95,8 +92,12 @@ class App extends Component {
 
 
   render() {
+
+    const {joinUrl} = this.state;
+
     return (
       <div className="App">
+        <h1>{joinUrl}</h1>
         <div style={{display: 'none', flexDirection: 'column'}}>
           <img src="/bern_top.png" ref={this.topRef}/>
           <img src="/bern_bot.png" ref={this.botRef}/>
