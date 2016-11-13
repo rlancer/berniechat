@@ -16,31 +16,27 @@ const initiate = ()=> {
   firebase.database().ref(`join/${uid}`).on('value', snap=> {
     const v = snap.val();
 
-    if (!v) {
-      console.log('NO VALUE', v);
+    if (!v)
       return;
-    }
-
 
     console.log('got value from other peer', v);
 
     const timeAgo = ((new Date()).getTime() - v.time) / 1000;
-    if (timeAgo > 4000) {
+    if (timeAgo > 4) {
       console.log('too long ago ignore');
     }
     else {
+      console.log('connecting  from other peer because its not too long', timeAgo);
       v.signals.forEach(signal=>peer1.signal(signal));
     }
   });
 
   const signals = [];
   peer1.on('signal', data => {
-
     signals.push(data);
 
-    if (signals.length === 2) {
+    if (signals.length === 2)
       firebase.database().ref('init/' + uid).set(signals);
-    }
   });
 
   peer1.on('connect', ()=> {
@@ -48,10 +44,7 @@ const initiate = ()=> {
     peer1.send('hey peer2, how is it going?');
   });
 
-  peer1.on('data', function (data) {
-    console.log('got a message from peer2: ' + data)
-  });
-
+  peer1.on('data', (data) => console.log('got a message from peer2: ' + data));
 };
 
 const joinClient = async token=> {
@@ -77,11 +70,7 @@ const joinClient = async token=> {
     peer2.send('hey peer1, how is it going?')
   });
 
-  peer2.on('data', function (data) {
-    console.log('got a message from peer1: ' + data)
-  });
-
-
+  peer2.on('data', (data) => console.log('got a message from peer1: ' + data));
 };
 
 firebase.auth().onAuthStateChanged(u => {
@@ -122,10 +111,4 @@ window.setTimeout(()=> {
 }, 5000);
 
 
-export default {
-
-  initiate(){
-
-
-  }
-}
+export default {}
