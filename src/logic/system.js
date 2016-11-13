@@ -108,7 +108,7 @@ window.setTimeout(()=> {
       console.error(error);
     });
   }
-}, 5000);
+}, 4000);
 
 
 export default {}
