@@ -8,6 +8,18 @@ class Puppet extends Component {
     super(props);
   }
 
+  componentDidMount() {
+    this.setupAudio(this.props.stream);
+
+    this._berBot.onload = () => {
+      this.ctx = this._canvas.getContext('2d');
+      this.ctx.drawImage(this._berTop, 0, 0);
+      this.ctx.drawImage(this._berBot, 0, 102);
+      console.log('bern loaded');
+      this.startAnimate();
+    };
+  }
+
   setupAudio = stream=> {
     const sampleSize = 256;
     const audioContext = new window.AudioContext();
@@ -53,19 +65,7 @@ class Puppet extends Component {
   botRef = c => this._berBot = c;
   topRef = c => this._berTop = c;
 
-  componentDidMount() {
 
-
-    this._berBot.onload = () => {
-      this.ctx = this._canvas.getContext('2d');
-      this.ctx.drawImage(this._berTop, 0, 0);
-      this.ctx.drawImage(this._berBot, 0, 102);
-      console.log('bern loaded');
-      this.startAnimate();
-
-    };
-
-  }
 
   i = 0;
   startAnimate = ()=> {
@@ -84,11 +84,8 @@ class Puppet extends Component {
 
 
   render() {
-    const {joinUrl} = this.state;
-
     return (
-      <div className="App">
-        <h1>{joinUrl}</h1>
+      <div>
         <div style={{display: 'none', flexDirection: 'column'}}>
           <img src="/bern_top.png" ref={this.topRef}/>
           <img src="/bern_bot.png" ref={this.botRef}/>

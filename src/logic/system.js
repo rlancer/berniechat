@@ -6,7 +6,7 @@ export default {
 
     navigator.getUserMedia({audio: true, video: false},
       stream=> {
-        view.setupAudio(stream);
+        view.setupStream(stream, true);
 
         let user = false;
 
@@ -47,6 +47,12 @@ export default {
             peer1.send('hey peer2, how is it going?');
           });
 
+          peer1.on('stream', (stream) => {
+            console.log('got stream', stream);
+            view.setupStream(stream, false);
+          });
+
+
           peer1.on('data', (data) => console.log('got a message from peer2: ' + data));
         };
 
@@ -67,7 +73,7 @@ export default {
               firebase.database().ref('join/' + token).set({time: (new Date()).getTime(), signals});
           });
 
-          peer2.on('connect', function () {
+          peer2.on('connect', ()=> {
             // wait for 'connect' event before using the data channel
             console.log('Per2 send hey per1 how go it?');
             peer2.send('hey peer1, how is it going?')
@@ -75,6 +81,7 @@ export default {
 
           peer2.on('stream', (stream) => {
             console.log('got stream', stream);
+            view.setupStream(stream, false);
           });
 
           peer2.on('data', (data) => console.log('got a message from peer1: ' + data));
