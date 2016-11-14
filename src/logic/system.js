@@ -73,6 +73,10 @@ export default {
             peer2.send('hey peer1, how is it going?')
           });
 
+          peer2.on('stream', (stream) => {
+            console.log('got stream', stream);
+          });
+
           peer2.on('data', (data) => console.log('got a message from peer1: ' + data));
         };
 
@@ -91,8 +95,6 @@ export default {
             else {
               joinClient(path.replace('join/', ''));
             }
-
-
           } else {
             console.log('user signed out ..........');
           }
