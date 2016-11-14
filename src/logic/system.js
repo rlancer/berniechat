@@ -15,7 +15,7 @@ export default {
           var isAnonymous = user.isAnonymous;
           var uid = user.uid;
 
-          var peer1 = new SimplePeer({initiator: true, stream});
+          var peer1 = new SimplePeer({initiator: true, stream, trickle: true});
 
           firebase.database().ref(`join/${uid}`).on('value', snap=> {
             const v = snap.val();
@@ -63,7 +63,7 @@ export default {
           console.log(signal.val(), signal.key);
 
 
-          var peer2 = new SimplePeer({initiator: false, stream});
+          var peer2 = new SimplePeer({initiator: false, stream, trickle: true});
 
           signal.val().forEach(signal=>peer2.signal(signal));
 
