@@ -6,6 +6,7 @@ export default {
 
     navigator.getUserMedia({audio: true, video: false},
       stream=> {
+        console.log('stream is user', stream);
         view.setupStream(stream, true);
 
         let user = false;
@@ -25,6 +26,7 @@ export default {
             console.log('got value from other peer', v);
 
             const timeAgo = ((new Date()).getTime() - v.time) / 1000;
+
             if (timeAgo > 4) {
               console.log('too long ago ignore');
             }

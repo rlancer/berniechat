@@ -17,6 +17,7 @@ class App extends Component {
   puppets = [];
 
   setupStream = (stream, isSelf)=> {
+    console.log('setup stream in app', isSelf);
     this.puppets.push(<Puppet key={isSelf ? 'self' : 'other'} stream={stream} isSelf={isSelf}/>);
     this.setState({[isSelf ? 'hasSelf' : 'hasOther']: true});
   };
@@ -25,7 +26,7 @@ class App extends Component {
     this.setState({joinUrl});
 
   render() {
-    const {joinUrl, hasSelf,hasOther} = this.state;
+    const {joinUrl, hasSelf, hasOther} = this.state;
 
     return (
       <div className="App">
