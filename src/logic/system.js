@@ -10,14 +10,13 @@ const getConfig = async()=>
     application: "default",
     room: "default",
     secure: 1
-  })).d;
+  })).body.d;
 
 export default {
   async start(view){
     const iceConfig = await getConfig();
     navigator.getUserMedia({audio: true, video: false},
       stream=> {
-        console.log('stream is user', stream);
         view.setupStream(stream, true);
         
         let user = false;
@@ -26,6 +25,7 @@ export default {
           var isAnonymous = user.isAnonymous;
           var uid = user.uid;
           
+          console.log('using config ____', iceConfig);
           var peer1 = new SimplePeer({initiator: true, stream, trickle: true, config: iceConfig});
           
           firebase.database().ref(`join/${uid}`).on('value', snap=> {
@@ -73,6 +73,7 @@ export default {
           const signal = await firebase.database().ref('init/' + token).once('value');
           console.log(signal.val(), signal.key);
           
+          console.log('using config', iceConfig);
           
           var peer2 = new SimplePeer({initiator: false, stream, trickle: true, config: iceConfig});
           
