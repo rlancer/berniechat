@@ -65,7 +65,6 @@ export default {
             view.setupStream(stream, false);
           });
           
-          
           peer1.on('data', (data) => console.log('got a message from peer2: ' + data));
         };
         
