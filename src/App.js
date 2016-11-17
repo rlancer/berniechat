@@ -30,7 +30,7 @@ class App extends Component {
 
     return (
       <div className="App">
-        <h1>{joinUrl}</h1>
+        {joinUrl}
         <hr/>
         {this.puppets}
       </div>
