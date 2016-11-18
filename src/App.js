@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import './App.css';
 import system from './logic/system';
 import Puppet from './components/Puppet';
+import Peer from 'peerjs';
 
 class App extends Component {
 
@@ -39,3 +40,9 @@ class App extends Component {
 }
 
 export default App;
+
+var peer = new Peer({key: 's0yh9ubn0vp74x6r'});
+
+peer.on('open', function(id) {
+  console.log('My peer ID is: ' + id);
+});

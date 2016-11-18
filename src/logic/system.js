@@ -25,8 +25,8 @@ export default {
           var isAnonymous = user.isAnonymous;
           var uid = user.uid;
           
-          console.log('using config ____', iceConfig);
-          var peer1 = new SimplePeer({initiator: true, stream, trickle: true, config: iceConfig});
+          console.log('using config  no trickle____', iceConfig);
+          var peer1 = new SimplePeer({initiator: true, stream, trickle: false, config: iceConfig});
           
           firebase.database().ref(`join/${uid}`).on('value', snap=> {
             const v = snap.val();
@@ -72,9 +72,9 @@ export default {
           const signal = await firebase.database().ref('init/' + token).once('value');
           console.log(signal.val(), signal.key);
           
-          console.log('using config', iceConfig);
+          console.log('!!!using config  no trickle____', iceConfig);
           
-          var peer2 = new SimplePeer({initiator: false, stream, trickle: true, config: iceConfig});
+          var peer2 = new SimplePeer({initiator: false, stream, trickle: false, config: iceConfig});
           
           signal.val().forEach(signal=>peer2.signal(signal));
           
