@@ -40,9 +40,3 @@ class App extends Component {
 }
 
 export default App;
-
-var peer = new Peer({key: 's0yh9ubn0vp74x6r'});
-
-peer.on('open', function(id) {
-  console.log('My peer ID is: ' + id);
-});

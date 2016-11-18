@@ -1,6 +1,6 @@
 import firebase from './firebase';
-import SimplePeer from 'simple-peer';
 import request from 'superagent';
+import Peer from 'peerjs';
 
 const getConfig = async()=>
   (await request.get('https://service.xirsys.com/ice').query({
@@ -26,78 +26,118 @@ export default {
           var uid = user.uid;
           
           console.log('using config  no trickle____', iceConfig);
-          var peer1 = new SimplePeer({initiator: true, stream, trickle: false, config: iceConfig});
           
-          firebase.database().ref(`join/${uid}`).on('value', snap=> {
-            const v = snap.val();
-            
-            if (!v)
-              return;
-            
-            console.log('got value from other peer', v);
-            
-            const timeAgo = ((new Date()).getTime() - v.time) / 1000;
-            
-            if (timeAgo > 4) {
-              console.log('too long ago ignore');
-            }
-            else {
-              console.log('connecting  from other peer because its not too long', timeAgo);
-              v.signals.forEach(signal=>peer1.signal(signal));
-            }
+          
+          var peer = new Peer({key: 's0yh9ubn0vp74x6r'});
+          
+          peer.on('call', function (call) {
+            // Answer the call, providing our mediaStream
+            console.log('answering call!');
+            call.answer(stream);
+  
+            call.on('stream', function (stream) {
+              view.setupStream(stream, false);
+    
+              // `stream` is the MediaStream of the remote peer.
+              // Here you'd add it to an HTML video/canvas element.
+            });
           });
           
-          const signals = [];
-          peer1.on('signal', data => {
-            signals.push(data);
+          //  var peer1 = new SimplePeer({initiator: true, stream, trickle: false, config: iceConfig});
+          
+          /* firebase.database().ref(`join/${uid}`).on('value', snap=> {
+           const v = snap.val();
+           
+           if (!v)
+           return;
+           
+           console.log('got value from other peer', v);
+           
+           const timeAgo = ((new Date()).getTime() - v.time) / 1000;
+           
+           if (timeAgo > 4) {
+           console.log('too long ago ignore');
+           }
+           else {
+           console.log('connecting  from other peer because its not too long', timeAgo);
+           v.signals.forEach(signal=>peer1.signal(signal));
+           }
+           });*/
+          
+          
+          peer.on('open', function (id) {
+            console.log('My peer ID is: ' + id);
+            firebase.database().ref('init/' + uid).set(id);
             
-            if (signals.length === 2)
-              firebase.database().ref('init/' + uid).set(signals);
           });
           
-          peer1.on('connect', ()=> {
-            console.log('hey peer2, how is it going?');
-            peer1.send('hey peer2, how is it going?');
-          });
+       
           
-          peer1.on('stream', (stream) => {
-            console.log('got stream', stream);
-            view.setupStream(stream, false);
-          });
-          
-          peer1.on('data', (data) => console.log('got a message from peer2: ' + data));
+          /*const signals = [];
+           peer1.on('signal', data => {
+           signals.push(data);
+           
+           if (signals.length === 2)
+           firebase.database().ref('init/' + uid).set(signals);
+           });
+           
+           
+           peer1.on('connect', ()=> {
+           console.log('hey peer2, how is it going?');
+           peer1.send('hey peer2, how is it going?');
+           });
+           
+           peer1.on('stream', (stream) => {
+           console.log('got stream', stream);
+           view.setupStream(stream, false);
+           });
+           
+           
+           peer1.on('data', (data) => console.log('got a message from peer2: ' + data));
+           */
         };
         
         const joinClient = async token=> {
           const signal = await firebase.database().ref('init/' + token).once('value');
-          console.log(signal.val(), signal.key);
+          // console.log(signal.val(), signal.key);
           
           console.log('!!!using config  no trickle____', iceConfig);
           
-          var peer2 = new SimplePeer({initiator: false, stream, trickle: false, config: iceConfig});
+          var peer = new Peer({key: 's0yh9ubn0vp74x6r'});
+          var call = peer.call(signal.val(), stream);
           
-          signal.val().forEach(signal=>peer2.signal(signal));
-          
-          const signals = [];
-          peer2.on('signal', (data) => {
-            signals.push(data);
-            
-            if (signals.length === 2)
-              firebase.database().ref('join/' + token).set({time: (new Date()).getTime(), signals});
-          });
-          
-          peer2.on('connect', ()=> {
-            // wait for 'connect' event before using the data channel
-            console.log('Per2 send hey per1 how go it?');
-            peer2.send('hey peer1, how is it going?')
-          });
-          
-          peer2.on('stream', (stream) => {
-            console.log('got stream', stream);
+          call.on('stream', function (stream) {
             view.setupStream(stream, false);
+            
+            // `stream` is the MediaStream of the remote peer.
+            // Here you'd add it to an HTML video/canvas element.
           });
           
-          peer2.on('data', (data) => console.log('got a message from peer1: ' + data));
+          
+          //        var peer2 = new SimplePeer({initiator: false, stream, trickle: false, config: iceConfig});
+          
+          //  signal.val().forEach(signal=>peer2.signal(signal));
+          
+          /*const signals = [];
+           peer2.on('signal', (data) => {
+           signals.push(data);
+           
+           if (signals.length === 2)
+           firebase.database().ref('join/' + token).set({time: (new Date()).getTime(), signals});
+           });
+           
+           peer2.on('connect', ()=> {
+           // wait for 'connect' event before using the data channel
+           console.log('Per2 send hey per1 how go it?');
+           peer2.send('hey peer1, how is it going?')
+           });*/
+          
+          /* peer2.on('stream', (stream) => {
+           console.log('got stream', stream);
+           view.setupStream(stream, false);
+           });
+           
+           peer2.on('data', (data) => console.log('got a message from peer1: ' + data));*/
         };
         
         firebase.auth().onAuthStateChanged(u => {
