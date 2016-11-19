@@ -3,11 +3,21 @@ import SimplePeer from 'simple-peer';
 import request from 'superagent';
 
 const getConfig = async()=>
-  (await request.get('https://debateoff-back-dqyngdjfkw.now.sh/twilio')).body.iceServers;
+  (await request.get('https://debateoff-back-dqyngdjfkw.now.sh/twilio')).body;
+
+const getIdent = async()=>
+  (await request.get('https://debateoff-back-zouihlgodr.now.sh/vid'))
 
 export default {
+  
+  
   async start(view){
-    const iceConfig = await getConfig();
+    
+    
+    const identity = await getIdent();
+    console.log('identity', identity);
+    
+    const {iceServers} = await getConfig();
     
     navigator.getUserMedia({audio: true, video: false},
       stream=> {
@@ -19,8 +29,8 @@ export default {
           var isAnonymous = user.isAnonymous;
           var uid = user.uid;
           
-          console.log('using config  no trickle____', iceConfig);
-          var peer1 = new SimplePeer({initiator: true, stream, trickle: false, config: iceConfig});
+          console.log('using config  no trickle____', {iceServers});
+          var peer1 = new SimplePeer({initiator: true, stream, trickle: true, config: {iceServers}});
           
           firebase.database().ref(`join/${uid}`).on('value', snap=> {
             const v = snap.val();
@@ -66,9 +76,9 @@ export default {
           const signal = await firebase.database().ref('init/' + token).once('value');
           console.log(signal.val(), signal.key);
           
-          console.log('using config  no trickle____', iceConfig);
+          console.log('using config  no trickle____', {iceServers});
           
-          var peer2 = new SimplePeer({initiator: false, stream, trickle: false, config: iceConfig});
+          var peer2 = new SimplePeer({initiator: false, stream, trickle: true, config: {iceServers}});
           
           signal.val().forEach(signal=>peer2.signal(signal));
           
