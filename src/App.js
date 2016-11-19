@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import './App.css';
-import system from './logic/system';
+import system from './logic/twil';
 import Puppet from './components/Puppet';
 import Peer from 'peerjs';
 
