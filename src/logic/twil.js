@@ -23,8 +23,9 @@ export default {
       console.log('Connected to Room "%s"', room.name);
       
       room.participants.forEach(participant => {
-        console.log('Participant "%s" is connected', participant.identity);
-        // participant.media.attach(document.body);
+        console.log('Participant "%s" is connected', participant.identity,participant);
+        // view.setupStream(participant.media);
+        participant.media.attach(document.body);
       });
       
       room.on('participantConnected', participant => {
