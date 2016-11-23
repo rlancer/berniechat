@@ -18,10 +18,10 @@ class App extends Component {
   puppets = [];
   
   
-  setupStream = (stream, isSelf)=> {
-    console.log('setup stream in app', isSelf);
-    this.puppets.push(<Puppet key={isSelf ? 'self' : 'other'} stream={stream} isSelf={isSelf}/>);
-    this.setState({[isSelf ? 'hasSelf' : 'hasOther']: true});
+  setupStream = ({stream, identity})=> {
+    console.log('setup stream in app',identity);
+    this.puppets.push(<Puppet key={identity} stream={stream} identity={identity}/>);
+    this.setState({identity});
   };
   
   

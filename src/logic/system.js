@@ -6,13 +6,12 @@ const getConfig = async()=>
   (await request.get('https://debateoff-back-dqyngdjfkw.now.sh/twilio')).body;
 
 const getIdent = async()=>
-  (await request.get('https://debateoff-back-zouihlgodr.now.sh/vid'))
+  (await request.get('https://debateoff-back-zouihlgodr.now.sh/vid'));
 
 export default {
   
   
   async start(view){
-    
     
     const identity = await getIdent();
     console.log('identity', identity);

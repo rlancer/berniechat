@@ -15,36 +15,31 @@ const getUserMedia = ()=>new Promise((resolve, reject)=>
   navigator.getUserMedia({audio: true, video: false}, stream=>resolve(stream), err=>reject(err))
 );
 
-const set = new Set();
-set.add('a');
-set.add('b');
-set.add('c');
-console.log(set);
-console.log(set.values());
-
 export default {
   
   async start(view){
     
     const {identity, token} = await getIdent();
     
+    console.log('IDENTITY / TOKEN', identity, token);
     const client = new twilio.Video.Client(token);
     
     client.connect({to: 'room-name'}).then(room => {
       console.log('Connected to Room "%s"', room.name);
       
       const l = participant=> {
-        console.log('PARTIICPANT');
+        console.log('PARTIICPANT', participant);
         // console.log('participant.media.mediaStreams',  participant.media.tracks);
-  
+        
         participant.media.on('trackAdded', function trackAdded(track) {
-          console.log('Track added', track.mediaStream, participant);
-          view.setupStream(track.mediaStream);
+          view.setupStream({stream:track.mediaStream, identity:participant.identity});
         });
         
-        participant.media.tracks.forEach(track=> {
-          console.log({track});
-        });
+        
+        /* might need to use this? look into it if track added fails
+         participant.media.tracks.forEach(track=> {
+         
+         });*/
         // console.log('participant.media.mediaStreams.values()', JSON.stringify(participant.media.mediaStreams.values()));
         /*console.log('participant.media.mediaStreams.entries()', participant.media.mediaStreams.entries());
          console.log('participant.media.mediaStreams', participant.media.mediaStreams);

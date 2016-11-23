@@ -9,14 +9,14 @@ class Puppet extends Component {
   }
 
   componentDidMount() {
-    const {stream, isSelf} = this.props;
+    const {stream, identity} = this.props;
 
-    console.log('is self', isSelf);
-    if (!isSelf) {
+    console.log('is self', identity);
+    // if (!isSelf) {
       console.log('SETUfP STREAM TO PLAY', this._video);
       this._video.src = window.URL.createObjectURL(stream);
       this._video.play();
-    }
+    // }
     this.setupAudio(stream);
 
     this._berBot.onload = () => {
