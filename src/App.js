@@ -19,6 +19,7 @@ class App extends Component {
   
   
   removeStream = ({identity}) => {
+    
     this.puppets = this.puppets.filter(puppet=>puppet.key !== identity);
     console.log('removed', identity, this.puppets);
     this.setState({ids: ids++});

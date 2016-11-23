@@ -9,14 +9,15 @@ class Puppet extends Component {
   }
   
   componentDidMount() {
-    const {stream, identity} = this.props;
+    const {stream, identity, isSelf} = this.props;
     
     console.log('is self', identity);
-    // if (!isSelf) {
-    console.log('SETUfP STREAM TO PLAY', this._video);
-    this._video.src = window.URL.createObjectURL(stream);
-    this._video.play();
-    // }
+    
+    if (!isSelf) {
+      console.log('SETUfP STREAM TO PLAY', this._video);
+      this._video.src = window.URL.createObjectURL(stream);
+      this._video.play();
+    }
     this.setupAudio(stream);
     
     this._berBot.onload = () => {
@@ -84,12 +85,17 @@ class Puppet extends Component {
   
   i = 0;
   startAnimate = ()=> {
-    window.requestAnimationFrame(this.startAnimate);
+    this._animationFrame = window.requestAnimationFrame(this.startAnimate);
     this.ctx.clearRect(0, 0, WIDTH, HEIGHT);
     const offset = Math.abs(this.vol);
     this.ctx.drawImage(this._berTop, 0, 10 - (offset));
     this.ctx.drawImage(this._berBot, 0, 112);
   };
+  
+  componentWillUnmount() {
+    console.log('unmointing', this.props.identity);
+    window.cancelAnimationFrame(this._animationFrame);
+  }
   
   refTxt = c => this._txt = c;
   refCb = c => this._cb = c;
