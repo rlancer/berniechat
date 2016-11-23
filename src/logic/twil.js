@@ -19,6 +19,7 @@ export default {
   async start(view){
     
     const {identity, token} = await getIdent();
+    view.setIdentity(identity);
     
     const client = new twilio.Video.Client(token);
     
@@ -55,11 +56,7 @@ export default {
     });
     
     room.on('participantConnected', participant => {
-      // console.log('Participant "%s" connected', participant.identity);
-      // participant.media.attach(document.body);
-      
       l(participant);
-      // participant.media.attach(document.body);
     });
     
     room.on('participantDisconnected', participant => {

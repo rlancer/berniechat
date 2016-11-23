@@ -8,7 +8,7 @@ class App extends Component {
   
   constructor(props) {
     super(props);
-    this.state = {joinUrl: false, hasSelf: false, hasOther: false};
+    this.state = {joinUrl: false, hasSelf: false, hasOther: false, identity: false};
   }
   
   componentDidMount() {
@@ -19,21 +19,22 @@ class App extends Component {
   
   
   setupStream = ({stream, identity})=> {
-    console.log('setup stream in app',identity);
+    console.log('setup stream in app', identity);
     this.puppets.push(<Puppet key={identity} stream={stream} identity={identity}/>);
     this.setState({identity});
   };
   
+  setIdentity = identity=>this.setState({identity});
   
   setJoinURL = joinUrl=>
     this.setState({joinUrl});
   
   render() {
-    const {joinUrl, hasSelf, hasOther} = this.state;
+    const {joinUrl, hasSelf, hasOther, identity} = this.state;
     
     return (
       <div className="App">
-        {joinUrl}
+        <h1>{identity}</h1>
         <hr/>
         {this.puppets}
       </div>
