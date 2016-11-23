@@ -3,7 +3,7 @@ import './App.css';
 import system from './logic/twil';
 import Puppet from './components/Puppet';
 // import Peer from 'peerjs';
-
+let ids = 0;
 class App extends Component {
   
   constructor(props) {
@@ -18,10 +18,16 @@ class App extends Component {
   puppets = [];
   
   
+  removeStream = ({identity}) => {
+    this.puppets = this.puppets.filter(puppet=>puppet.key !== identity);
+    console.log('removed', identity, this.puppets);
+    this.setState({ids: ids++});
+  };
+  
   setupStream = ({stream, identity})=> {
     console.log('setup stream in app', identity);
     this.puppets.push(<Puppet key={identity} stream={stream} identity={identity}/>);
-    this.setState({identity});
+    this.setState({ids: ids++});
   };
   
   setIdentity = identity=>this.setState({identity});
