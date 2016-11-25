@@ -22,29 +22,22 @@ export default {
     let roomId = false;
     const path = window.location.pathname.substring(1);
     
-    if (path.startsWith('join/')) {
-      roomId = path.split('/')[1];
-      console.log('joining ', roomId);
+    const parts = path.split('/');
+    roomId = parts[0].trim();
+    
+    if (roomId.length > 0)
       view.setJoinedRoom({room: roomId});
-    }
     else {
       roomId = shortId.generate();
-      console.log('generated room', roomId);
       view.setJoinURL({room: roomId});
     }
     
-    
-    
     const {identity, token} = await getIdent();
-    
     view.setIdentity(identity);
     
     const client = new twilio.Video.Client(token);
-    
     const localMedia = new twilio.Video.LocalMedia();
-    
     const mic = await localMedia.addMicrophone();
-    
     const room = await client.connect({to: roomId, localMedia});
     
     view.setupStream({stream: mic.mediaStream, identity: room.localParticipant.identity, isSelf: true});

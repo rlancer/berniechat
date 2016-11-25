@@ -100,7 +100,7 @@ class Puppet extends Component {
     
     
     return (
-      <div style={{backgroundColor: 'teal'}}>
+      <div>
         <video style={{display: 'none'}} ref={this.refVideo}/>
         <div style={{display: 'none', flexDirection: 'column'}}>
           <img src="/bern_top.png" ref={this.topRef}/>

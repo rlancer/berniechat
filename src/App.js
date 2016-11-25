@@ -45,23 +45,18 @@ class App extends Component {
     return (
       <div className="App" style={{display: 'flex', flexDirection: 'column'}}>
         
-        <div>
+        <div style={{backgroundColor: '#fff', padding: '1.5rem', display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
           {room ?
-            <div style={{backgroundColor: '#fff', padding: '1.5rem', display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
-              <div style={{padding: '1rem', borderRadius: 6, border: 'dashed 3px green', color: '#333'}}>https://www.berniechat.com/join/{room}</div>
-            </div> :
-            false}
-          
-          {joined ? <div>Connected to {joined} <a href="/">[start your own session]</a></div> : false }
+            <h1>Invite friends https://bernie.chat/{room}</h1> :
+            <h1>Connected to {joined} &middot; <a href="/">new session</a></h1>}
         </div>
         
         <div style={{display: 'flex', justifyContent: 'center'}}>
           {this.puppets}
         </div>
-        <div style={{backgroundColor: 'pink', flex: 1, display: 'flex', alignItems: 'flex-end', justifyContent: 'center', padding: '2rem'}}>
-          
+        <div style={{flex: 1, display: 'flex', alignItems: 'flex-end', justifyContent: 'center', padding: '2rem'}}>
           <div style={{display: 'flex', justifyContent: 'center', flexDirection: 'column', alignItems: 'center'}}>
-            <div>Join our <a href="https://www.collaborizm.com/project/H1DQb64zg" target="_blank">Project</a> on Collaborizm</div>
+            <div>Join our <a href="https://www.collaborizm.com/project/H1DQb64zg" target="_blank">Project</a> on <a href="https://www.collaborizm.com" target="_blank">Collaborizm</a></div>
             <div>&copy; BernieChat.com {new Date().getFullYear()}</div>
           </div>
         </div>
