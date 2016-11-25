@@ -11,7 +11,7 @@ class Puppet extends Component {
   componentDidMount() {
     const {stream, identity, isSelf} = this.props;
     
-    console.log('is self', identity);
+    console.log('is self', identity, isSelf);
     
     if (!isSelf) {
       console.log('SETUfP STREAM TO PLAY', this._video);

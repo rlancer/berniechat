@@ -20,20 +20,20 @@ class App extends Component {
   
   removeStream = ({identity}) => {
     
-    this.puppets = this.puppets.filter(puppet=>puppet.key !== identity);
+    this.puppets = this.puppets.filter(puppet => puppet.key !== identity);
     console.log('removed', identity, this.puppets);
     this.setState({ids: ids++});
   };
   
-  setupStream = ({stream, identity})=> {
-    console.log('setup stream in app', identity);
-    this.puppets.push(<Puppet key={identity} stream={stream} identity={identity}/>);
+  setupStream = ({stream, identity, isSelf}) => {
+    console.log('setup stream in app', identity, isSelf);
+    this.puppets.push(<Puppet key={identity} stream={stream} identity={identity} isSelf={isSelf}/>);
     this.setState({ids: ids++});
   };
   
-  setIdentity = identity=>this.setState({identity});
+  setIdentity = identity => this.setState({identity});
   
-  setJoinURL = joinUrl=>
+  setJoinURL = joinUrl =>
     this.setState({joinUrl});
   
   render() {
@@ -41,9 +41,12 @@ class App extends Component {
     
     return (
       <div className="App">
-        <h1>{identity}</h1>
-        <hr/>
-        {this.puppets}
+        <div style={{backgroundColor: '#fff', padding: '1.5rem', display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
+          <h1 style={{color: '#333'}}>BernieChat.com</h1>
+        </div>
+        <div style={{height: '20rem'}}>
+          {this.puppets}
+        </div>
       </div>
     );
   }
