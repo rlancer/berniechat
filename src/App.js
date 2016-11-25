@@ -8,7 +8,7 @@ class App extends Component {
   
   constructor(props) {
     super(props);
-    this.state = {joinUrl: false, hasSelf: false, hasOther: false, identity: false};
+    this.state = {joined: false, room: false};
   }
   
   componentDidMount() {
@@ -33,19 +33,37 @@ class App extends Component {
   
   setIdentity = identity => this.setState({identity});
   
-  setJoinURL = joinUrl =>
-    this.setState({joinUrl});
+  setJoinURL = ({room}) =>
+    this.setState({room});
+  
+  setJoinedRoom = ({room}) =>
+    this.setState({joined: room});
   
   render() {
-    const {joinUrl, hasSelf, hasOther, identity} = this.state;
+    const {room, joined} = this.state;
     
     return (
-      <div className="App">
-        <div style={{backgroundColor: '#fff', padding: '1.5rem', display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
-          <h1 style={{color: '#333'}}>BernieChat.com</h1>
+      <div className="App" style={{display: 'flex', flexDirection: 'column'}}>
+        
+        <div>
+          {room ?
+            <div style={{backgroundColor: '#fff', padding: '1.5rem', display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
+              <div style={{padding: '1rem', borderRadius: 6, border: 'dashed 3px green', color: '#333'}}>https://www.berniechat.com/join/{room}</div>
+            </div> :
+            false}
+          
+          {joined ? <div>Connected to {joined} <a href="/">[start your own session]</a></div> : false }
         </div>
-        <div style={{height: '20rem'}}>
+        
+        <div style={{display: 'flex', justifyContent: 'center'}}>
           {this.puppets}
+        </div>
+        <div style={{backgroundColor: 'pink', flex: 1, display: 'flex', alignItems: 'flex-end', justifyContent: 'center', padding: '2rem'}}>
+          
+          <div style={{display: 'flex', justifyContent: 'center', flexDirection: 'column', alignItems: 'center'}}>
+            <div>Join our <a href="https://www.collaborizm.com/project/H1DQb64zg" target="_blank">Project</a> on Collaborizm</div>
+            <div>&copy; BernieChat.com {new Date().getFullYear()}</div>
+          </div>
         </div>
       </div>
     );

@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 
-const WIDTH = 578, HEIGHT = 400;
+const WIDTH = 230, HEIGHT = 400;
 
 class Puppet extends Component {
   
@@ -11,7 +11,6 @@ class Puppet extends Component {
   componentDidMount() {
     const {stream, identity, isSelf} = this.props;
     
-    console.log('is self', identity, isSelf);
     
     if (!isSelf) {
       console.log('SETUfP STREAM TO PLAY', this._video);
@@ -29,7 +28,7 @@ class Puppet extends Component {
     };
   }
   
-  setupAudio = stream=> {
+  setupAudio = stream => {
     const sampleSize = 256;
     const audioContext = new window.AudioContext();
     const sourceNode = audioContext.createMediaStreamSource(stream);
@@ -42,20 +41,16 @@ class Puppet extends Component {
     // trigger the audio analysis and draw one column in the display based on the results
     let ids = 0;
     
-    if (!this.props.isSelf) {
-      console.log('analyserNode', analyserNode);
-    }
-    
-    javascriptNode.onaudioprocess = ()=> {
+    javascriptNode.onaudioprocess = () => {
       amplitudeArray = new Uint8Array(analyserNode.frequencyBinCount);
       analyserNode.getByteTimeDomainData(amplitudeArray);
       
-      var minValue = 9999999;
-      var maxValue = 0;
+      let minValue = 9999999;
+      let maxValue = 0;
       
       for (let i = 0; i < amplitudeArray.length; i++) {
         
-        var value = amplitudeArray[i];
+        let value = amplitudeArray[i];
         if (value > maxValue) {
           maxValue = value;
         } else if (value < minValue) {
@@ -84,12 +79,12 @@ class Puppet extends Component {
   topRef = c => this._berTop = c;
   
   i = 0;
-  startAnimate = ()=> {
+  startAnimate = () => {
     this._animationFrame = window.requestAnimationFrame(this.startAnimate);
     this.ctx.clearRect(0, 0, WIDTH, HEIGHT);
     const offset = Math.abs(this.vol);
-    this.ctx.drawImage(this._berTop, 0, 10 - (offset));
-    this.ctx.drawImage(this._berBot, 0, 112);
+    this.ctx.drawImage(this._berTop, 0, 186 - offset);
+    this.ctx.drawImage(this._berBot, 0, 400 - 112);
   };
   
   componentWillUnmount() {
@@ -102,18 +97,16 @@ class Puppet extends Component {
   refVideo = c => this._video = c;
   
   render() {
-    const {stream, identity} = this.props;
     
     
     return (
-      <div>
-        {identity}
-        <video ref={this.refVideo}/>
+      <div style={{backgroundColor: 'teal'}}>
+        <video style={{display: 'none'}} ref={this.refVideo}/>
         <div style={{display: 'none', flexDirection: 'column'}}>
           <img src="/bern_top.png" ref={this.topRef}/>
           <img src="/bern_bot.png" ref={this.botRef}/>
         </div>
-        <canvas width="578" height="400" ref={this.canvRef}/>
+        <canvas width="230" height="400" ref={this.canvRef}/>
       </div>
     );
   }
