@@ -5,11 +5,6 @@ import Puppet from './components/Puppet';
 import Path from './views/Path';
 
 const webRTCSupport = require('webrtcsupport');
-if (!webRTCSupport.support) {
-  alert('not supported');
-}
-else
-  console.log('support', webRTCSupport.support);
 
 let ids = 0;
 class App extends Component {
@@ -49,6 +44,13 @@ class App extends Component {
   
   render() {
     const {room, joined} = this.state;
+    
+    if (!webRTCSupport.support) {
+      return <div className="App" style={{padding: '4rem',textAlign:'center'}}>
+        Not supported by your browser, try <a href="https://www.google.com/chrome/">Chrome</a> or <a href="https://www.mozilla.org/en-US/firefox/products/">Firefox</a>!
+      </div>
+    }
+    
     
     return (
       <div className="App" style={{display: 'flex', flexDirection: 'column'}}>
