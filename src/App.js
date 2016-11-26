@@ -2,6 +2,8 @@ import React, {Component} from 'react';
 import './App.css';
 import system from './logic/twil';
 import Puppet from './components/Puppet';
+import Path from './views/Path';
+
 // import Peer from 'peerjs';
 let ids = 0;
 class App extends Component {
@@ -44,13 +46,7 @@ class App extends Component {
     
     return (
       <div className="App" style={{display: 'flex', flexDirection: 'column'}}>
-        
-        <div style={{backgroundColor: '#fff', padding: '1.5rem', display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
-          {room ?
-            <h1>Invite friends https://bernie.chat/{room}</h1> :
-            <h1>Connected to {joined} &middot; <a href="/">new session</a></h1>}
-        </div>
-        
+        <Path room={room} joined={joined}/>
         <div style={{display: 'flex', justifyContent: 'center'}}>
           {this.puppets}
         </div>
