@@ -4,7 +4,13 @@ import system from './logic/twil';
 import Puppet from './components/Puppet';
 import Path from './views/Path';
 
-// import Peer from 'peerjs';
+const webRTCSupport = require('webrtcsupport');
+if (!webRTCSupport.support) {
+  alert('not supported');
+}
+else
+  console.log('support', webRTCSupport.support);
+
 let ids = 0;
 class App extends Component {
   

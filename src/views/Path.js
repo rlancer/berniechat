@@ -30,7 +30,10 @@ class Path extends Component {
     
     return <div style={{backgroundColor: '#fff', padding: '1.5rem', display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
       {room ?
-        <h1 onClick={this.copyUrl}>Invite friends {this.url}</h1> :
+        <div onClick={this.copyUrl} style={{display: 'flex', justifyContent: 'center', flexDirection: 'column', alignItems: 'center'}}>
+          <h1 style={{cursor: 'pointer'}}>Invite friends to chat as Bernie!</h1>
+          <h2 style={{cursor: 'pointer'}}>{this.url}</h2>
+        </div> :
         <h1>Connected to {joined} &middot; <a href="/">new session</a></h1>}
       <Snackbar autoHideDuration={2500} message='Copied to clipboard' open={showedCopied} onRequestClose={this.closeShowCopied}/>
     </div>;
