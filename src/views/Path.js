@@ -32,7 +32,7 @@ class Path extends Component {
       {room ?
         <h1 onClick={this.copyUrl}>Invite friends {this.url}</h1> :
         <h1>Connected to {joined} &middot; <a href="/">new session</a></h1>}
-      <Snackbar message='Copied to clipboard' open={showedCopied} onRequestClose={this.closeShowCopied}/>
+      <Snackbar autoHideDuration={2500} message='Copied to clipboard' open={showedCopied} onRequestClose={this.closeShowCopied}/>
     </div>;
     
   }
