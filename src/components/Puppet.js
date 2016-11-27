@@ -2,30 +2,69 @@ import React, {Component} from 'react';
 
 const WIDTH = 230, HEIGHT = 400;
 
+var chunks = [];
+
+
 class Puppet extends Component {
   
   constructor(props) {
     super(props);
   }
   
+  
   componentDidMount() {
     const {stream, identity, isSelf} = this.props;
     
-    
     if (!isSelf) {
-      console.log('SETUfP STREAM TO PLAY', this._video);
       this._video.src = window.URL.createObjectURL(stream);
       this._video.play();
     }
+    
     this.setupAudio(stream);
     
     this._berBot.onload = () => {
       this.ctx = this._canvas.getContext('2d');
+      
+      this.ctx.fillStyle = "blue";
+      this.ctx.fillRect(0, 0, WIDTH, HEIGHT);
+      
       this.ctx.drawImage(this._berTop, 0, 0);
       this.ctx.drawImage(this._berBot, 0, 102);
-      console.log('bern loaded');
+      
       this.startAnimate();
     };
+    
+    const canvasStream = this._canvas.captureStream();
+    const mediaRecorder = new window.MediaRecorder(canvasStream, {mimeType: 'video/webm; codecs=vp9'});
+    
+    mediaRecorder.ondataavailable = e => chunks.push(e.data);
+    
+    
+    mediaRecorder.start();
+    
+    window.setTimeout(() => {
+      mediaRecorder.stop();
+      
+      ////////////
+      const a = document.createElement("a");
+      document.body.appendChild(a);
+      a.style = "display: none";
+      
+      const
+        blob = new Blob(chunks, {
+          type: 'video/webm'
+        }),
+        url = window.URL.createObjectURL(blob);
+      a.href = url;
+      a.download = 'recording.webm';
+      a.click();
+      window.URL.revokeObjectURL(url);
+      
+      
+      /////////////
+      
+      
+    }, 4000);
   }
   
   setupAudio = stream => {
@@ -59,13 +98,6 @@ class Puppet extends Component {
       }
       
       this.vol = (maxValue - minValue);
-      
-      /*if (!this.props.isSelf) {
-       console.log('vol', this.vol);
-       }
-       */
-      // draw one column of the display
-      // requestAnimFrame(drawTimeDomain);
     };
     // Now connect the nodes together
     // Do not connect source node to destination - to avoid feedback
@@ -81,14 +113,14 @@ class Puppet extends Component {
   i = 0;
   startAnimate = () => {
     this._animationFrame = window.requestAnimationFrame(this.startAnimate);
-    this.ctx.clearRect(0, 0, WIDTH, HEIGHT);
+    this.ctx.fillStyle = '#f00';
+    this.ctx.fillRect(0, 0, WIDTH, HEIGHT);
     const offset = Math.abs(this.vol);
     this.ctx.drawImage(this._berTop, 0, 186 - offset);
     this.ctx.drawImage(this._berBot, 0, 400 - 112);
   };
   
   componentWillUnmount() {
-    console.log('unmointing', this.props.identity);
     window.cancelAnimationFrame(this._animationFrame);
   }
   
@@ -97,8 +129,6 @@ class Puppet extends Component {
   refVideo = c => this._video = c;
   
   render() {
-    
-    
     return (
       <div>
         <video style={{display: 'none'}} ref={this.refVideo}/>
@@ -111,5 +141,6 @@ class Puppet extends Component {
     );
   }
 }
+
 
 export default Puppet;
