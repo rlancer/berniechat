@@ -2,15 +2,13 @@ import React, {Component} from 'react';
 
 const WIDTH = 230, HEIGHT = 400;
 
-var chunks = [];
-
 
 class Puppet extends Component {
   
   constructor(props) {
     super(props);
+    this.state = {recording: false};
   }
-  
   
   componentDidMount() {
     const {stream, identity, isSelf} = this.props;
@@ -25,46 +23,19 @@ class Puppet extends Component {
     this._berBot.onload = () => {
       this.ctx = this._canvas.getContext('2d');
       
-      this.ctx.fillStyle = "blue";
+      this.ctx.fillStyle = "#fff";
       this.ctx.fillRect(0, 0, WIDTH, HEIGHT);
       
       this.ctx.drawImage(this._berTop, 0, 0);
       this.ctx.drawImage(this._berBot, 0, 102);
       
       this.startAnimate();
+      
+      const canvasStream = this._canvas.captureStream();
+      this.mediaRecorder = new window.MediaRecorder(canvasStream, {mimeType: 'video/webm; codecs=vp9'});
+      this.mediaRecorder.ondataavailable = e => this.chunks.push(e.data);
+      
     };
-    
-    const canvasStream = this._canvas.captureStream();
-    const mediaRecorder = new window.MediaRecorder(canvasStream, {mimeType: 'video/webm; codecs=vp9'});
-    
-    mediaRecorder.ondataavailable = e => chunks.push(e.data);
-    
-    
-    mediaRecorder.start();
-    
-    window.setTimeout(() => {
-      mediaRecorder.stop();
-      
-      ////////////
-      const a = document.createElement("a");
-      document.body.appendChild(a);
-      a.style = "display: none";
-      
-      const
-        blob = new Blob(chunks, {
-          type: 'video/webm'
-        }),
-        url = window.URL.createObjectURL(blob);
-      a.href = url;
-      a.download = 'recording.webm';
-      a.click();
-      window.URL.revokeObjectURL(url);
-      
-      
-      /////////////
-      
-      
-    }, 4000);
   }
   
   setupAudio = stream => {
@@ -88,7 +59,6 @@ class Puppet extends Component {
       let maxValue = 0;
       
       for (let i = 0; i < amplitudeArray.length; i++) {
-        
         let value = amplitudeArray[i];
         if (value > maxValue) {
           maxValue = value;
@@ -113,7 +83,7 @@ class Puppet extends Component {
   i = 0;
   startAnimate = () => {
     this._animationFrame = window.requestAnimationFrame(this.startAnimate);
-    this.ctx.fillStyle = '#f00';
+    this.ctx.fillStyle = '#fff';
     this.ctx.fillRect(0, 0, WIDTH, HEIGHT);
     const offset = Math.abs(this.vol);
     this.ctx.drawImage(this._berTop, 0, 186 - offset);
@@ -128,7 +98,32 @@ class Puppet extends Component {
   refCb = c => this._cb = c;
   refVideo = c => this._video = c;
   
+  startRecord = () => {
+    this.setState({recording: true});
+    this.chunks = [];
+    this.mediaRecorder.start();
+    
+  };
+  
+  stopRecord = () => {
+    this.setState({recording: false});
+    
+    this.mediaRecorder.stop();
+    
+    
+    const a = document.createElement("a");
+    document.body.appendChild(a);
+    a.style = "display: none";
+    const blob = new Blob(this.chunks, {type: 'video/webm'}),
+      url = window.URL.createObjectURL(blob);
+    a.href = url;
+    a.download = 'recording.webm';
+    a.click();
+    window.URL.revokeObjectURL(url);
+  };
+  
   render() {
+    const {recording} = this.state;
     return (
       <div>
         <video style={{display: 'none'}} ref={this.refVideo}/>
@@ -137,6 +132,10 @@ class Puppet extends Component {
           <img src="/bern_bot.png" ref={this.botRef}/>
         </div>
         <canvas width="230" height="400" ref={this.canvRef}/>
+        <div>
+          {!recording ?
+            <button onClick={this.startRecord}>Start Record</button> : <button onClick={this.stopRecord}>Stop Recording</button>}
+        </div>
       </div>
     );
   }
