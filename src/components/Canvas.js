@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-
+import puppet from './puppet';
 const WIDTH = 854, HEIGHT = 480;
 
 class Canvas extends Component {
@@ -7,21 +7,40 @@ class Canvas extends Component {
   constructor(props) {
     super(props);
     this.state = {recording: false};
+    this.puppets = [];
+    this.vol = 10;
   }
   
   componentDidMount() {
     this.ctx = this._canvas.getContext('2d');
     this.ctx.fillStyle = "#f00";
     this.ctx.fillRect(0, 0, WIDTH, HEIGHT);
+    this.startAnimate();
   }
+  
+  startAnimate = () => {
+    this._animationFrame = window.requestAnimationFrame(this.startAnimate);
+    this.ctx.fillStyle = '#0ff';
+    this.ctx.fillRect(0, 0, WIDTH, HEIGHT);
+    const offset = Math.abs(this.vol);
+    this.ctx.drawImage(this._berTop, 0, 186 - offset);
+    this.ctx.drawImage(this._berBot, 0, 400 - 112);
+    console.log('Start animate', this.vol);
+  };
   
   canvRef = c => this._canvas = c;
   botRef = c => this._berBot = c;
   topRef = c => this._berTop = c;
   
-  componentWillUnmount() {
+  add = ({stream, identity, isSelf}) => {
     
-  }
+    const volumeUpdate = vol => {
+      this.vol = vol;
+    };
+    
+    this.puppets.push(puppet({stream, identity, isSelf, volumeUpdate}));
+  };
+  
   
   startRecord = () => {
     this.setState({recording: true});
@@ -46,6 +65,7 @@ class Canvas extends Component {
   
   render() {
     const {recording} = this.state;
+    
     return (
       <div>
         <div style={{display: 'none', flexDirection: 'column'}}>

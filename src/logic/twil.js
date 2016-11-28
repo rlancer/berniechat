@@ -33,6 +33,7 @@ export default {
     }
     
     const {identity, token} = await getIdent();
+    
     view.setIdentity(identity);
     
     const client = new twilio.Video.Client(token);
