@@ -7,7 +7,7 @@ class Canvas extends Component {
   constructor(props) {
     super(props);
     this.state = {recording: false};
-    this.puppets = [];
+    this.identies = [];
     this.vol = 10;
   }
   
@@ -32,15 +32,15 @@ class Canvas extends Component {
   botRef = c => this._berBot = c;
   topRef = c => this._berTop = c;
   
-  add = ({stream, identity, isSelf}) => {
-    
-    const volumeUpdate = vol => {
-      this.vol = vol;
-    };
-    
-    this.puppets.push(puppet({stream, identity, isSelf, volumeUpdate}));
+  volumeUpdate = ({vol, index, identity}) => {
+    console.log('VOLUME IDENTITY', vol, index, identity);
   };
   
+  add = ({stream, identity, isSelf}) => {
+    const index = this.identies.length;
+    this.identies.push(identity);
+    puppet({index, stream, identity, isSelf, volumeUpdate: this.volumeUpdate});
+  };
   
   startRecord = () => {
     this.setState({recording: true});

@@ -1,4 +1,4 @@
-function puppet({stream, identity, isSelf, volumeUpdate}) {
+function puppet({stream, identity, isSelf, volumeUpdate, index}) {
   
   if (!isSelf) {
     const videoElement = document.createElement('VIDEO');
@@ -36,7 +36,7 @@ function puppet({stream, identity, isSelf, volumeUpdate}) {
         minValue = value;
     }
     
-    volumeUpdate(maxValue - minValue);
+    volumeUpdate({vol: maxValue - minValue, index, identity});
   };
   
   // Now connect the nodes together
