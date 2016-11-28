@@ -3,6 +3,7 @@ import './App.css';
 import system from './logic/twil';
 import Puppet from './components/Puppet';
 import Path from './views/Path';
+import Canvas from './components/Canvas';
 
 const webRTCSupport = require('webrtcsupport');
 
@@ -46,7 +47,7 @@ class App extends Component {
     const {room, joined} = this.state;
     
     if (!webRTCSupport.support) {
-      return <div className="App" style={{padding: '4rem',textAlign:'center'}}>
+      return <div className="App" style={{padding: '4rem', textAlign: 'center'}}>
         Not supported by your browser, try <a href="https://www.google.com/chrome/">Chrome</a> or <a href="https://www.mozilla.org/en-US/firefox/products/">Firefox</a>!
       </div>
     }
@@ -56,8 +57,8 @@ class App extends Component {
       <div className="App" style={{display: 'flex', flexDirection: 'column'}}>
         <Path room={room} joined={joined}/>
         <div style={{display: 'flex', justifyContent: 'center'}}>
-          {this.puppets}
         </div>
+        <Canvas/>
         <div style={{flex: 1, display: 'flex', alignItems: 'flex-end', justifyContent: 'center', padding: '2rem'}}>
           <div style={{display: 'flex', justifyContent: 'center', flexDirection: 'column', alignItems: 'center'}}>
             <div>Join our <a href="https://www.collaborizm.com/project/H1DQb64zg" target="_blank">Project</a> on <a href="https://www.collaborizm.com" target="_blank">Collaborizm</a></div>

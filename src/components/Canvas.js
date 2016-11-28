@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 
-const WIDTH = 230, HEIGHT = 400;
-
+const WIDTH = 854, HEIGHT = 480;
 
 class Canvas extends Component {
   
@@ -11,35 +10,23 @@ class Canvas extends Component {
   }
   
   componentDidMount() {
-    
-    
+    this.ctx = this._canvas.getContext('2d');
+    this.ctx.fillStyle = "#f00";
+    this.ctx.fillRect(0, 0, WIDTH, HEIGHT);
   }
   
   canvRef = c => this._canvas = c;
   botRef = c => this._berBot = c;
   topRef = c => this._berTop = c;
   
-  i = 0;
-  startAnimate = () => {
-    this._animationFrame = window.requestAnimationFrame(this.startAnimate);
-    this.ctx.fillStyle = '#fff';
-    this.ctx.fillRect(0, 0, WIDTH, HEIGHT);
-    const offset = Math.abs(this.vol);
-    this.ctx.drawImage(this._berTop, 0, 186 - offset);
-    this.ctx.drawImage(this._berBot, 0, 400 - 112);
-  };
-  
   componentWillUnmount() {
-    window.cancelAnimationFrame(this._animationFrame);
+    
   }
-  
-  refVideo = c => this._video = c;
   
   startRecord = () => {
     this.setState({recording: true});
     this.chunks = [];
     this.mediaRecorder.start();
-    
   };
   
   stopRecord = () => {
@@ -61,15 +48,17 @@ class Canvas extends Component {
     const {recording} = this.state;
     return (
       <div>
-        <video style={{display: 'none'}} ref={this.refVideo}/>
         <div style={{display: 'none', flexDirection: 'column'}}>
           <img src="/bern_top.png" ref={this.topRef}/>
           <img src="/bern_bot.png" ref={this.botRef}/>
         </div>
-        <canvas width="230" height="400" ref={this.canvRef}/>
-        <div>
+        <div style={{display: 'flex', justifyContent: 'center'}}>
+          <canvas width={WIDTH} height={HEIGHT} ref={this.canvRef}/>
+        </div>
+        <div style={{display: 'flex', justifyContent: 'center', padding: '1rem'}}>
           {!recording ?
-            <button onClick={this.startRecord}>Start Record</button> : <button onClick={this.stopRecord}>Stop Recording</button>}
+            <button onClick={this.startRecord}>Start Record</button> :
+            <button onClick={this.stopRecord}>Stop Recording</button>}
         </div>
       </div>
     );
