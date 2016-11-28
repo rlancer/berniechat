@@ -8,7 +8,7 @@ class Canvas extends Component {
     super(props);
     this.state = {recording: false};
     this.identies = [];
-    this.vol = 10;
+    this.volumes = {};
   }
   
   componentDidMount() {
@@ -22,18 +22,24 @@ class Canvas extends Component {
     this._animationFrame = window.requestAnimationFrame(this.startAnimate);
     this.ctx.fillStyle = '#0ff';
     this.ctx.fillRect(0, 0, WIDTH, HEIGHT);
-    const offset = Math.abs(this.vol);
-    this.ctx.drawImage(this._berTop, 0, 186 - offset);
-    this.ctx.drawImage(this._berBot, 0, 400 - 112);
-    console.log('Start animate', this.vol);
+    
+    this.identies.forEach((identity, index) => {
+      const vol = this.volumes[identity];
+      const offset = Math.abs(vol);
+      const xOffset = index * 200;
+      this.ctx.drawImage(this._berTop, xOffset, 186 - offset);
+      this.ctx.drawImage(this._berBot, xOffset, 400 - 112);
+    });
   };
   
   canvRef = c => this._canvas = c;
+  
   botRef = c => this._berBot = c;
   topRef = c => this._berTop = c;
   
   volumeUpdate = ({vol, index, identity}) => {
-    console.log('VOLUME IDENTITY', vol, index, identity);
+    //  console.log('VOLUME IDENTITY', vol, index, identity);
+    this.volumes[identity] = vol;
   };
   
   add = ({stream, identity, isSelf}) => {
