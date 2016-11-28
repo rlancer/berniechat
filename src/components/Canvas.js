@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import puppet from './puppet';
+import Puppet from './Puppet';
 const WIDTH = 854, HEIGHT = 480;
 
 class Canvas extends Component {
@@ -7,14 +7,19 @@ class Canvas extends Component {
   constructor(props) {
     super(props);
     this.state = {recording: false};
-    this.identies = [];
-    this.volumes = {};
+    this.identies = {};
+    this.chunks = [];
   }
   
   componentDidMount() {
     this.ctx = this._canvas.getContext('2d');
     this.ctx.fillStyle = "#f00";
     this.ctx.fillRect(0, 0, WIDTH, HEIGHT);
+    
+    const canvasStream = this._canvas.captureStream();
+    this.mediaRecorder = new window.MediaRecorder(canvasStream, {mimeType: 'video/webm; codecs=vp9'});
+    this.mediaRecorder.ondataavailable = e => this.chunks.push(e.data);
+    
     this.startAnimate();
   }
   
@@ -23,10 +28,10 @@ class Canvas extends Component {
     this.ctx.fillStyle = '#0ff';
     this.ctx.fillRect(0, 0, WIDTH, HEIGHT);
     
-    this.identies.forEach((identity, index) => {
-      const vol = this.volumes[identity];
+    Object.values(this.identies).forEach((pupet, index) => {
+      const vol = pupet.vol;
       const offset = Math.abs(vol);
-      const xOffset = index * 200;
+      const xOffset = index * 210;
       this.ctx.drawImage(this._berTop, xOffset, 186 - offset);
       this.ctx.drawImage(this._berBot, xOffset, 400 - 112);
     });
@@ -38,14 +43,16 @@ class Canvas extends Component {
   topRef = c => this._berTop = c;
   
   volumeUpdate = ({vol, index, identity}) => {
-    //  console.log('VOLUME IDENTITY', vol, index, identity);
     this.volumes[identity] = vol;
   };
   
+  remove = ({identity}) => {
+    this.identies[identity].cleanUp();
+    delete this.identies[identity];
+  };
+  
   add = ({stream, identity, isSelf}) => {
-    const index = this.identies.length;
-    this.identies.push(identity);
-    puppet({index, stream, identity, isSelf, volumeUpdate: this.volumeUpdate});
+    this.identies[identity] = new Puppet({stream, identity, isSelf, volumeUpdate: this.volumeUpdate});
   };
   
   startRecord = () => {
@@ -57,14 +64,15 @@ class Canvas extends Component {
   stopRecord = () => {
     this.setState({recording: false});
     this.mediaRecorder.stop();
-    
+    const now = new Date();
     const a = document.createElement("a");
     document.body.appendChild(a);
     a.style = "display: none";
     const blob = new Blob(this.chunks, {type: 'video/webm'}),
       url = window.URL.createObjectURL(blob);
     a.href = url;
-    a.download = 'recording.webm';
+    const name = `${now.toLocaleDateString()} at ${now.toLocaleTimeString()}`;
+    a.download = name + '.bernie.chat.webm';
     a.click();
     window.URL.revokeObjectURL(url);
   };

@@ -3,7 +3,6 @@ import './App.css';
 import system from './logic/twil';
 import Path from './views/Path';
 import Canvas from './components/Canvas';
-
 const webRTCSupport = require('webrtcsupport');
 
 let ids = 0;
@@ -18,26 +17,12 @@ class App extends Component {
     system.start(this);
   }
   
-  
-  
   removeStream = ({identity}) => {
-    
-    this.puppets = this.puppets.filter(puppet => puppet.key !== identity);
-    console.log('removed', identity, this.puppets);
-    this.setState({ids: ids++});
+    this._canvas.remove({identity});
   };
   
   setupStream = ({stream, identity, isSelf}) => {
-    
     this._canvas.add({stream, identity, isSelf});
-    
-    // console.log(stream, identity, isSelf);
-    
-    
-    
-    // console.log('setup stream in app', identity, isSelf);
-    // this.puppets.push(<Puppet key={identity} stream={stream} identity={identity} isSelf={isSelf}/>);
-    // this.setState({ids: ids++});
   };
   
   setIdentity = identity => this.setState({identity});
