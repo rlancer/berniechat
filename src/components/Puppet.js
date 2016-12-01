@@ -5,6 +5,7 @@ class Puppet {
   constructor({stream, identity, isSelf, volumeUpdate, index}) {
     
     this.vol = 0;
+    this.stream = stream;
     
     if (!isSelf) {
       this.videoElement = document.createElement('VIDEO');

@@ -16,10 +16,6 @@ class Canvas extends Component {
     this.ctx.fillStyle = "#f00";
     this.ctx.fillRect(0, 0, WIDTH, HEIGHT);
     
-    const canvasStream = this._canvas.captureStream();
-    this.mediaRecorder = new window.MediaRecorder(canvasStream, {mimeType: 'video/webm; codecs=vp9'});
-    this.mediaRecorder.ondataavailable = e => this.chunks.push(e.data);
-    
     this.startAnimate();
   }
   
@@ -42,23 +38,36 @@ class Canvas extends Component {
   botRef = c => this._berBot = c;
   topRef = c => this._berTop = c;
   
-  volumeUpdate = ({vol, index, identity}) => {
+  volumeUpdate = ({vol, index, identity}) =>
     this.volumes[identity] = vol;
-  };
   
   remove = ({identity}) => {
     this.identies[identity].cleanUp();
     delete this.identies[identity];
   };
   
-  add = ({stream, identity, isSelf}) => {
+  add = ({stream, identity, isSelf}) =>
     this.identies[identity] = new Puppet({stream, identity, isSelf, volumeUpdate: this.volumeUpdate});
-  };
   
   startRecord = () => {
-    this.setState({recording: true});
-    this.chunks = [];
-    this.mediaRecorder.start();
+    try {
+      const canvasStream = this._canvas.captureStream();
+      
+      Object.values(this.identies).forEach(puppet =>
+        canvasStream.addTrack(puppet.stream.getAudioTracks()[0]));
+      
+      this.mediaRecorder = new window.MediaRecorder(canvasStream, {mimeType: 'video/webm; codecs=vp9'});
+      this.mediaRecorder.ondataavailable = e => this.chunks.push(e.data);
+      this.setState({recording: true});
+      
+      this.chunks = [];
+      this.mediaRecorder.start();
+    } catch (e2) {
+      alert('MediaRecorder is not supported by this browser.\n\n' +
+        'Try Firefox 29 or later, or Chrome 47 or later, with Enable experimental Web Platform features enabled from chrome://flags.');
+      console.error('Exception while creating MediaRecorder:', e2);
+      return;
+    }
   };
   
   stopRecord = () => {
