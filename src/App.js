@@ -3,7 +3,8 @@ import './App.css';
 import system from './logic/twil';
 import Path from './views/Path';
 import Canvas from './components/Canvas';
-const webRTCSupport = require('webrtcsupport');
+import webRTCSupport from 'webrtcsupport';
+import Characters from './components/Characters';
 
 let ids = 0;
 class App extends Component {
@@ -47,8 +48,7 @@ class App extends Component {
     return (
       <div className="App" style={{display: 'flex', flexDirection: 'column'}}>
         <Path room={room} joined={joined}/>
-        <div style={{display: 'flex', justifyContent: 'center'}}>
-        </div>
+        <Characters/>
         <Canvas ref={this.refCanvas}/>
         <div style={{flex: 1, display: 'flex', alignItems: 'flex-end', justifyContent: 'center', padding: '2rem'}}>
           <div style={{display: 'flex', justifyContent: 'center', flexDirection: 'column', alignItems: 'center'}}>
