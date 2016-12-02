@@ -6,7 +6,10 @@ export default class Characters extends Component {
   
   constructor() {
     super();
-    this.characters = [{key: 'larryasbernie', path: 'LarryAsBernie.png', splitPoint: 10}];
+    this.characters = [
+      {key: 'larryasbernie', path: 'LarryAsBernie.png', splitPoint: 10, width: 200},
+      {key: 'berine', path: 'Bernie.jpg', splitPoint: 20, width: 200}
+    ];
   }
   
   componentDidMount() {
@@ -15,7 +18,7 @@ export default class Characters extends Component {
   
   render() {
     return <div style={{border: 'solid 1px #eee'}}>
-      {this.characters.map(char => <img src={`/characters/${char.path}`} key={char.key} ref={c => char.ref = c}/>)}
+      {this.characters.map(char => <img width={char.width} src={`/characters/${char.path}`} key={char.key} ref={c => char.ref = c}/>)}
     </div>
   }
 }
