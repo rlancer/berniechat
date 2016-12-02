@@ -5,13 +5,24 @@ import Path from './views/Path';
 import Canvas from './components/Canvas';
 import webRTCSupport from 'webrtcsupport';
 import Characters from './components/Characters';
+import Logic from './logic/Logic';
 
 let ids = 0;
 class App extends Component {
   
+  
+  getChildContext() {
+    return {logic: this.logic};
+  }
+  
+  static childContextTypes = {
+    logic: React.PropTypes.instanceOf(Logic)
+  };
+  
   constructor(props) {
     super(props);
     this.state = {joined: false, room: false};
+    this.logic = new Logic();
   }
   
   componentDidMount() {

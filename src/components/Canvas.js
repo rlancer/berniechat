@@ -1,6 +1,7 @@
-import React, {Component} from 'react';
+import React from 'react';
 import Puppet from './Puppet';
 const WIDTH = 854, HEIGHT = 480;
+import Component from '../components/Component';
 
 class Canvas extends Component {
   
@@ -82,6 +83,7 @@ class Canvas extends Component {
     
     return (
       <div>
+        {this.logic.test}
         <div style={{display: 'none', flexDirection: 'column'}}>
           <img src="/bern_top.png" ref={this.topRef}/>
           <img src="/bern_bot.png" ref={this.botRef}/>
