@@ -1,5 +1,6 @@
 class Logic {
-  constructor() {
+  constructor(app) {
+  this.app = app;  
   
   }
   

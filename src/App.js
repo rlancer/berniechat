@@ -21,7 +21,7 @@ class App extends Component {
   
   constructor(props) {
     super(props);
-    this.state = {joined: false, room: false};
+    this.state = {joined: false, room: false, character:false};
     this.logic = new Logic();
   }
   
@@ -48,7 +48,7 @@ class App extends Component {
   refCanvas = c => this._canvas = c;
   
   render() {
-    const {room, joined} = this.state;
+    const {room, joined,character} = this.state;
     
     if (!webRTCSupport.support) {
       return <div className="App" style={{padding: '4rem', textAlign: 'center'}}>
@@ -59,8 +59,12 @@ class App extends Component {
     return (
       <div className="App" style={{display: 'flex', flexDirection: 'column'}}>
         <Path room={room} joined={joined}/>
+        <div style={{display:character?'none':''}}>
         <Characters/>
+        </div>
+        <div  style={{display:character?'':'none'}}>
         <Canvas ref={this.refCanvas}/>
+        </div>
         <div style={{flex: 1, display: 'flex', alignItems: 'flex-end', justifyContent: 'center', padding: '2rem'}}>
           <div style={{display: 'flex', justifyContent: 'center', flexDirection: 'column', alignItems: 'center'}}>
             <div>Join our <a href="https://www.collaborizm.com/project/H1DQb64zg" target="_blank">Project</a> on <a href="https://www.collaborizm.com" target="_blank">Collaborizm</a></div>
