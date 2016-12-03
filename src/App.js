@@ -9,18 +9,17 @@ import Logic from './logic/Logic';
 
 let ids = 0;
 class App extends Component {
-
-
+  
   getChildContext() {
     return {
       logic: this.logic
     };
   }
-
+  
   static childContextTypes = {
     logic: React.PropTypes.instanceOf(Logic)
   };
-
+  
   constructor(props) {
     super(props);
     this.state = {
@@ -30,11 +29,11 @@ class App extends Component {
     };
     this.logic = new Logic(this);
   }
-
+  
   componentDidMount() {
     system.start(this);
   }
-
+  
   removeStream = ({
     identity
   }) => {
@@ -42,60 +41,56 @@ class App extends Component {
       identity
     });
   };
-
-  setupStream = ({
-    stream,
-    identity,
-    isSelf
-  }) => {
+  
+  setupStream = ({stream, identity, isSelf}) => {
     this._canvas.add({
       stream,
       identity,
       isSelf
     });
   };
-
+  
   setIdentity = identity => this.setState({
     identity
   });
-
+  
   setJoinURL = ({
-      room
-    }) =>
+    room
+  }) =>
     this.setState({
       room
     });
-
+  
   setJoinedRoom = ({
-      room
-    }) =>
+    room
+  }) =>
     this.setState({
       joined: room
     });
-
+  
   refCanvas = c => this._canvas = c;
-
+  
   render() {
     const {
       room,
       joined,
       character
     } = this.state;
-
+    
     if (!webRTCSupport.support) {
       return <div className="App" style={{padding: '4rem', textAlign: 'center'}}>
         Not supported by your browser, try <a href="https://www.google.com/chrome/">Chrome</a> or <a href="https://www.mozilla.org/en-US/firefox/products/">Firefox</a>!
       </div>
     }
-
+    
     return (
       <div className="App" style={{display: 'flex', flexDirection: 'column'}}>
         <Path room={room} joined={joined}/>
-        <div style={{display:character?'none':''}}>
-        <Characters/>
+        <div style={{display: character ? 'none' : ''}}>
+          <Characters/>
         </div>
-        <div  style={{display:character?'':'none'}}>
-          <Canvas ref={this.refCanvas}/>
+        <div style={{display: character ? '' : 'none'}}>
+          <Canvas character={character} ref={this.refCanvas}/>
         </div>
         <div style={{flex: 1, display: 'flex', alignItems: 'flex-end', justifyContent: 'center', padding: '2rem'}}>
           <div style={{display: 'flex', justifyContent: 'center', flexDirection: 'column', alignItems: 'center'}}>

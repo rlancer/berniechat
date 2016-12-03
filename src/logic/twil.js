@@ -19,6 +19,7 @@ export default {
   
   async start(view){
     
+    
     let roomId = false;
     const path = window.location.pathname.substring(1);
     
@@ -41,13 +42,13 @@ export default {
     const mic = await localMedia.addMicrophone();
     const room = await client.connect({to: roomId, localMedia});
     
-    view.setupStream({stream: mic.mediaStream, identity: room.localParticipant.identity, isSelf: true});
+    view.logic.add({stream: mic.mediaStream, identity: room.localParticipant.identity, isSelf: true});
     
     room.on('trackAdded', (track, participant) =>
       view.setupStream({stream: track.mediaStream, identity: participant.identity, isSelf: identity === participant.identity}));
     
     room.on('participantDisconnected', (participant) =>
-      view.removeStream({identity: participant.identity}));
+      view.logic.removeStream({identity: participant.identity}));
     
     window.addEventListener('unload', () => room.disconnect());
   }

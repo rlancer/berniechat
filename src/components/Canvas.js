@@ -1,5 +1,4 @@
 import React from 'react';
-import Puppet from './Puppet';
 const WIDTH = 854, HEIGHT = 480;
 import Component from '../components/Component';
 
@@ -29,7 +28,7 @@ class Canvas extends Component {
     this.ctx.fillStyle = '#0ff';
     this.ctx.fillRect(0, 0, WIDTH, HEIGHT);
     
-    Object.values(this.identies).forEach((pupet, index) => {
+    Object.values(this.logic.identies).forEach((pupet, index) => {
       const vol = pupet.vol;
       const offset = Math.abs(vol);
       const xOffset = index * 210;
@@ -45,15 +44,6 @@ class Canvas extends Component {
   
   volumeUpdate = ({vol, index, identity}) => {
     this.volumes[identity] = vol;
-  };
-  
-  remove = ({identity}) => {
-    this.identies[identity].cleanUp();
-    delete this.identies[identity];
-  };
-  
-  add = ({stream, identity, isSelf}) => {
-    this.identies[identity] = new Puppet({stream, identity, isSelf, volumeUpdate: this.volumeUpdate});
   };
   
   startRecord = () => {
