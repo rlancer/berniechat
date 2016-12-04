@@ -29,11 +29,32 @@ class Canvas extends Component {
     this.ctx.fillRect(0, 0, WIDTH, HEIGHT);
     
     Object.values(this.logic.identies).forEach((pupet, index) => {
-      const vol = pupet.vol;
-      const offset = Math.abs(vol);
-      const xOffset = index * 210;
-      this.ctx.drawImage(this._berTop, xOffset, 186 - offset);
-      this.ctx.drawImage(this._berBot, xOffset, 400 - 112);
+      
+      if (!pupet.character)
+        return;
+      
+      const
+        img = pupet.character.ref,
+        vol = pupet.vol,
+        offset = Math.abs(vol),
+        xOffset = index * 210;
+      
+      
+      const params = {
+        img,
+        sx: 0,
+        sy: 0,
+        sw: 200,
+        sh: 400,
+        dx: 0,
+        dy: 400,
+        dw: 400,
+        dh: 200
+      };
+      
+      
+      this.ctx.drawImage(...Object.values(params));
+      // this.ctx.drawImage(img, xOffset, 400);
     });
   };
   
@@ -81,6 +102,7 @@ class Canvas extends Component {
         <div style={{display: 'flex', justifyContent: 'center'}}>
           <canvas width={WIDTH} height={HEIGHT} ref={this.canvRef}/>
         </div>
+        
         <div style={{display: 'flex', justifyContent: 'center', padding: '1rem'}}>
           {!recording ?
             <button onClick={this.startRecord}>Start Record</button> :

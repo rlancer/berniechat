@@ -1,9 +1,11 @@
 // make this into a class to facilitate mounting and unmouting
 class Puppet {
   
-  constructor({stream, identity, isSelf, volumeUpdate, index}) {
+  constructor({stream, identity, isSelf, volumeUpdate, index, logic}) {
     
+    this.logic = logic;
     this.vol = 0;
+    this.isSelf = isSelf;
     
     if (!isSelf) {
       this.videoElement = document.createElement('VIDEO');
@@ -49,6 +51,14 @@ class Puppet {
     sourceNode.connect(analyserNode);
     analyserNode.connect(javascriptNode);
     javascriptNode.connect(audioContext.destination);
+  }
+  
+  get character() {
+    if (this.isSelf)
+      return this.logic.selfCharacter;
+    else {
+      return this.logic.characters[0].key;
+    }
   }
   
   cleanUp() {

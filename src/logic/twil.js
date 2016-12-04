@@ -19,7 +19,6 @@ export default {
   
   async start(view){
     
-    
     let roomId = false;
     const path = window.location.pathname.substring(1);
     
@@ -34,7 +33,6 @@ export default {
     }
     
     const {identity, token} = await getIdent();
-    
     view.setIdentity(identity);
     
     const client = new twilio.Video.Client(token);

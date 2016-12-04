@@ -6,7 +6,7 @@ export default class Characters extends Component {
   
   selectCharacter = (char) => {
     console.log('char', char);
-    this.logic.setCharacter(char);
+    this.logic.setSelfCharacter(char);
     this.logic.app.setState({character: char.key});
   };
   
