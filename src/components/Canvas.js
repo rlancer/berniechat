@@ -36,25 +36,46 @@ class Canvas extends Component {
       const
         img = pupet.character.ref,
         vol = pupet.vol,
-        offset = Math.abs(vol),
+        
         xOffset = index * 210;
+  
+      let offset = vol - 1;
       
+      if(offset< 0)
+        offset = 0;
+      
+      const splitPoint = 236;
+      const height = 400;
+      const width = 400;
+      
+      const zero = HEIGHT - height;
       
       const params = {
         img,
         sx: 0,
         sy: 0,
-        sw: 200,
-        sh: 400,
+        sw: width,
+        sh: splitPoint,
         dx: 0,
-        dy: 400,
-        dw: 400,
-        dh: 200
+        dy: zero - offset,
+        dw: width,
+        dh: splitPoint
       };
       
+      const params2 = {
+        img,
+        sx: 0,
+        sy: splitPoint,
+        sw: width,
+        sh: height - splitPoint,
+        dx: 0,
+        dy: splitPoint +  zero,
+        dw: width,
+        dh: height - splitPoint
+      };
       
       this.ctx.drawImage(...Object.values(params));
-      // this.ctx.drawImage(img, xOffset, 400);
+      this.ctx.drawImage(...Object.values(params2));
     });
   };
   
