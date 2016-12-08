@@ -4,11 +4,8 @@ import Component from './Component'
 
 export default class Characters extends Component {
   
-  selectCharacter = (char) => {
-    console.log('char', char);
+  selectCharacter = (char) =>
     this.logic.setSelfCharacter(char);
-    this.logic.app.setState({character: char.key});
-  };
   
   render() {
     return <div style={{border: 'solid 1px #eee'}}>

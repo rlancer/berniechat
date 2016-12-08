@@ -57,7 +57,7 @@ class Puppet {
     if (this.isSelf)
       return this.logic.selfCharacter;
     else {
-      return this.logic.characters[0].key;
+      return this.logic.characters[0];
     }
   }
   

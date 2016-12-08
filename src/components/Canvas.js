@@ -2,7 +2,7 @@ import React from 'react';
 const WIDTH = 854, HEIGHT = 480;
 import Component from '../components/Component';
 
-class Canvas extends Component {
+export default class Canvas extends Component {
   
   constructor(props) {
     super(props);
@@ -38,15 +38,13 @@ class Canvas extends Component {
         vol = pupet.vol,
         
         xOffset = index * 210;
-  
+      
       let offset = vol - 1;
       
-      if(offset< 0)
+      if (offset < 0)
         offset = 0;
       
-      const splitPoint = 236;
-      const height = 400;
-      const width = 400;
+      const {splitPoint, height, width} = pupet.character;
       
       const zero = HEIGHT - height;
       
@@ -69,7 +67,7 @@ class Canvas extends Component {
         sw: width,
         sh: height - splitPoint,
         dx: 0,
-        dy: splitPoint +  zero,
+        dy: splitPoint + zero,
         dw: width,
         dh: height - splitPoint
       };
@@ -84,9 +82,8 @@ class Canvas extends Component {
   botRef = c => this._berBot = c;
   topRef = c => this._berTop = c;
   
-  volumeUpdate = ({vol, index, identity}) => {
+  volumeUpdate = ({vol, index, identity}) =>
     this.volumes[identity] = vol;
-  };
   
   startRecord = () => {
     this.setState({recording: true});
@@ -113,26 +110,17 @@ class Canvas extends Component {
   render() {
     const {recording} = this.state;
     
-    return (
-      <div>
-        {this.logic.test}
-        <div style={{display: 'none', flexDirection: 'column'}}>
-          <img src="/bern_top.png" ref={this.topRef}/>
-          <img src="/bern_bot.png" ref={this.botRef}/>
-        </div>
-        <div style={{display: 'flex', justifyContent: 'center'}}>
-          <canvas width={WIDTH} height={HEIGHT} ref={this.canvRef}/>
-        </div>
-        
-        <div style={{display: 'flex', justifyContent: 'center', padding: '1rem'}}>
-          {!recording ?
-            <button onClick={this.startRecord}>Start Record</button> :
-            <button onClick={this.stopRecord}>Stop Recording</button>}
-        </div>
+    return <div>
+      <div style={{display: 'flex', justifyContent: 'center'}}>
+        <canvas width={WIDTH} height={HEIGHT} ref={this.canvRef}/>
       </div>
-    );
+      <div style={{display: 'flex', justifyContent: 'center', padding: '1rem'}}>
+        {!recording ?
+          <button onClick={this.startRecord}>Start Record</button> :
+          <button onClick={this.stopRecord}>Stop Recording</button>}
+      </div>
+    </div>;
   }
 }
 
 
-export default Canvas;

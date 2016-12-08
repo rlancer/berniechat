@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import './App.css';
-import system from './logic/twil';
 import Path from './views/Path';
 import Canvas from './components/Canvas';
 import webRTCSupport from 'webrtcsupport';
@@ -22,60 +21,25 @@ class App extends Component {
   
   constructor(props) {
     super(props);
-    this.state = {
-      joined: false,
-      room: false,
-      character: false
-    };
+    this.state = {joined: false, room: false, character: false};
     this.logic = new Logic(this);
   }
   
-  componentDidMount() {
-    system.start(this);
-  }
   
-  removeStream = ({
-    identity
-  }) => {
-    this._canvas.remove({
-      identity
-    });
-  };
+  setIdentity = identity =>
+    this.setState({identity});
   
-  setupStream = ({stream, identity, isSelf}) => {
-    this._canvas.add({
-      stream,
-      identity,
-      isSelf
-    });
-  };
+  setJoinURL = ({room}) =>
+    this.setState({room});
   
-  setIdentity = identity => this.setState({
-    identity
-  });
+  setJoinedRoom = ({room}) =>
+    this.setState({joined: room});
   
-  setJoinURL = ({
-    room
-  }) =>
-    this.setState({
-      room
-    });
-  
-  setJoinedRoom = ({
-    room
-  }) =>
-    this.setState({
-      joined: room
-    });
-  
-  refCanvas = c => this._canvas = c;
+  refCanvas = c =>
+    this._canvas = c;
   
   render() {
-    const {
-      room,
-      joined,
-      character
-    } = this.state;
+    const {room, joined, character} = this.state;
     
     if (!webRTCSupport.support) {
       return <div className="App" style={{padding: '4rem', textAlign: 'center'}}>

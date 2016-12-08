@@ -1,10 +1,12 @@
 import Puppet from '../components/Puppet';
+import system from './twil';
 
-class Logic {
+export default class Logic {
+  
   constructor(app) {
     this.characters = [
-      {key: 'berine', path: 'Bernie.jpg', splitPoint: 20, width: 200},
-      {key: 'larryasbernie', path: 'LarryAsBernie.png', splitPoint: 10, width: 200}
+      {key: 'berine', path: 'Bernie.jpg', splitPoint: 236, width: 400, height: 400},
+      {key: 'larryasbernie', path: 'LaryAsBerine.jpg', splitPoint: 133, width: 379, height: 400}
     ];
     this.app = app;
     this.identies = {};
@@ -20,8 +22,9 @@ class Logic {
     delete this.identies[identity];
   };
   
-  setSelfCharacter = char => this.selfCharacter = char;
-  
+  setSelfCharacter = char => {
+    this.selfCharacter = char;
+    this.app.setState({character: char.key});
+    system.start(this);
+  };
 }
-
-export default Logic;
