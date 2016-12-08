@@ -11,7 +11,7 @@ export default class Component extends React.Component {
   }
   
   get isLocal() {
-    return window.location.pathname !== 'localhost';
+    return window.location.hostname === 'localhost';
   }
   
 }
