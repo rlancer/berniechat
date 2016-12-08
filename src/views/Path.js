@@ -3,7 +3,7 @@ import Component from '../components/Component';
 import copy from 'copy-to-clipboard';
 import Snackbar from 'material-ui/Snackbar';
 
-class Path extends Component {
+export default class Path extends Component {
   
   constructor(props) {
     super(props);
@@ -40,6 +40,4 @@ class Path extends Component {
     
   }
 }
-
-export default Path;
 
