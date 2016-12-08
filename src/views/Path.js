@@ -1,8 +1,9 @@
-import React, {Component} from 'react';
+import React from 'react';
+import Component from '../components/Component';
 import copy from 'copy-to-clipboard';
 import Snackbar from 'material-ui/Snackbar';
 
-class Path extends Component {
+export default class Path extends Component {
   
   constructor(props) {
     super(props);
@@ -16,12 +17,11 @@ class Path extends Component {
   
   get url() {
     const {joined, room} = this.props;
-    return `https://bernie.chat/${room}`;
+    return `${this.isLocal ? 'http://localhost:3000' : 'https://bernie.chat'}/${room}`;
   }
   
-  closeShowCopied = () => {
+  closeShowCopied = () =>
     this.setState({showedCopied: false});
-  };
   
   render() {
     const
@@ -40,6 +40,4 @@ class Path extends Component {
     
   }
 }
-
-export default Path;
 

@@ -1,8 +1,8 @@
-import React, {Component} from 'react';
-import Puppet from './Puppet';
+import React from 'react';
 const WIDTH = 854, HEIGHT = 480;
+import Component from '../components/Component';
 
-class Canvas extends Component {
+export default class Canvas extends Component {
   
   constructor(props) {
     super(props);
@@ -16,6 +16,10 @@ class Canvas extends Component {
     this.ctx.fillStyle = "#f00";
     this.ctx.fillRect(0, 0, WIDTH, HEIGHT);
     
+    const canvasStream = this._canvas.captureStream();
+    this.mediaRecorder = new window.MediaRecorder(canvasStream, {mimeType: 'video/webm; codecs=vp9'});
+    this.mediaRecorder.ondataavailable = e => this.chunks.push(e.data);
+    
     this.startAnimate();
   }
   
@@ -24,12 +28,52 @@ class Canvas extends Component {
     this.ctx.fillStyle = '#0ff';
     this.ctx.fillRect(0, 0, WIDTH, HEIGHT);
     
-    Object.values(this.identies).forEach((pupet, index) => {
-      const vol = pupet.vol;
-      const offset = Math.abs(vol);
-      const xOffset = index * 210;
-      this.ctx.drawImage(this._berTop, xOffset, 186 - offset);
-      this.ctx.drawImage(this._berBot, xOffset, 400 - 112);
+    Object.values(this.logic.identies).forEach((pupet, index) => {
+      
+      if (!pupet.character)
+        return;
+      
+      const
+        img = pupet.character.ref,
+        vol = pupet.vol,
+        
+        xOffset = index * 330;
+      
+      let offset = vol - 1;
+      
+      if (offset < 0)
+        offset = 0;
+      
+      const {splitPoint, height, width} = pupet.character;
+      
+      const zero = HEIGHT - height;
+      
+      const params = {
+        img,
+        sx: 0,
+        sy: 0,
+        sw: width,
+        sh: splitPoint,
+        dx: xOffset,
+        dy: zero - offset,
+        dw: width,
+        dh: splitPoint
+      };
+      
+      const params2 = {
+        img,
+        sx: 0,
+        sy: splitPoint,
+        sw: width,
+        sh: height - splitPoint,
+        dx: xOffset,
+        dy: splitPoint + zero,
+        dw: width,
+        dh: height - splitPoint
+      };
+      
+      this.ctx.drawImage(...Object.values(params));
+      this.ctx.drawImage(...Object.values(params2));
     });
   };
   
@@ -41,33 +85,10 @@ class Canvas extends Component {
   volumeUpdate = ({vol, index, identity}) =>
     this.volumes[identity] = vol;
   
-  remove = ({identity}) => {
-    this.identies[identity].cleanUp();
-    delete this.identies[identity];
-  };
-  
-  add = ({stream, identity, isSelf}) =>
-    this.identies[identity] = new Puppet({stream, identity, isSelf, volumeUpdate: this.volumeUpdate});
-  
   startRecord = () => {
-    try {
-      const canvasStream = this._canvas.captureStream();
-      
-      Object.values(this.identies).forEach(puppet =>
-        canvasStream.addTrack(puppet.stream.getAudioTracks()[0]));
-      
-      this.mediaRecorder = new window.MediaRecorder(canvasStream, {mimeType: 'video/webm; codecs=vp9'});
-      this.mediaRecorder.ondataavailable = e => this.chunks.push(e.data);
-      this.setState({recording: true});
-      
-      this.chunks = [];
-      this.mediaRecorder.start();
-    } catch (e2) {
-      alert('MediaRecorder is not supported by this browser.\n\n' +
-        'Try Firefox 29 or later, or Chrome 47 or later, with Enable experimental Web Platform features enabled from chrome://flags.');
-      console.error('Exception while creating MediaRecorder:', e2);
-      return;
-    }
+    this.setState({recording: true});
+    this.chunks = [];
+    this.mediaRecorder.start();
   };
   
   stopRecord = () => {
@@ -89,24 +110,17 @@ class Canvas extends Component {
   render() {
     const {recording} = this.state;
     
-    return (
-      <div>
-        <div style={{display: 'none', flexDirection: 'column'}}>
-          <img src="/bern_top.png" ref={this.topRef}/>
-          <img src="/bern_bot.png" ref={this.botRef}/>
-        </div>
-        <div style={{display: 'flex', justifyContent: 'center'}}>
-          <canvas width={WIDTH} height={HEIGHT} ref={this.canvRef}/>
-        </div>
-        <div style={{display: 'flex', justifyContent: 'center', padding: '1rem'}}>
-          {!recording ?
-            <button onClick={this.startRecord}>Start Record</button> :
-            <button onClick={this.stopRecord}>Stop Recording</button>}
-        </div>
+    return <div>
+      <div style={{display: 'flex', justifyContent: 'center'}}>
+        <canvas width={WIDTH} height={HEIGHT} ref={this.canvRef}/>
       </div>
-    );
+      <div style={{display: 'flex', justifyContent: 'center', padding: '1rem'}}>
+        {!recording ?
+          <button onClick={this.startRecord}>Start Record</button> :
+          <button onClick={this.stopRecord}>Stop Recording</button>}
+      </div>
+    </div>;
   }
 }
 
 
-export default Canvas;
