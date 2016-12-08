@@ -37,7 +37,7 @@ export default class Canvas extends Component {
         img = pupet.character.ref,
         vol = pupet.vol,
         
-        xOffset = index * 210;
+        xOffset = index * 330;
       
       let offset = vol - 1;
       
@@ -54,7 +54,7 @@ export default class Canvas extends Component {
         sy: 0,
         sw: width,
         sh: splitPoint,
-        dx: 0,
+        dx: xOffset,
         dy: zero - offset,
         dw: width,
         dh: splitPoint
@@ -66,7 +66,7 @@ export default class Canvas extends Component {
         sy: splitPoint,
         sw: width,
         sh: height - splitPoint,
-        dx: 0,
+        dx: xOffset,
         dy: splitPoint + zero,
         dw: width,
         dh: height - splitPoint

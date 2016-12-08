@@ -43,7 +43,7 @@ class App extends Component {
     
     if (!webRTCSupport.support) {
       return <div className="App" style={{padding: '4rem', textAlign: 'center'}}>
-        Not supported by your browser, try <a href="https://www.google.com/chrome/">Chrome</a> or <a href="https://www.mozilla.org/en-US/firefox/products/">Firefox</a>!
+        Not supported by your browser, try <a href="https://www.google.com/chrome/">Chrome</a>!
       </div>
     }
     

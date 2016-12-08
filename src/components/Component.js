@@ -9,6 +9,11 @@ export default class Component extends React.Component {
   get logic() {
     return this.context.logic;
   }
+  
+  get isLocal() {
+    return window.location.pathname !== 'localhost';
+  }
+  
 }
 
 
