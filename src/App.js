@@ -49,11 +49,11 @@ class App extends Component {
     
     return (
       <div className="App" style={{display: 'flex', flexDirection: 'column'}}>
-        <Path room={room} joined={joined}/>
         <div style={{display: character ? 'none' : ''}}>
           <Characters/>
         </div>
         <div style={{display: character ? '' : 'none'}}>
+          <Path room={room} joined={joined}/>
           <Canvas character={character} ref={this.refCanvas}/>
         </div>
         <div style={{flex: 1, display: 'flex', alignItems: 'flex-end', justifyContent: 'center', padding: '2rem'}}>
