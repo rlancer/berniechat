@@ -58,8 +58,8 @@ class App extends Component {
         </div>
         <div style={{flex: 1, display: 'flex', alignItems: 'flex-end', justifyContent: 'center', padding: '2rem'}}>
           <div style={{display: 'flex', justifyContent: 'center', flexDirection: 'column', alignItems: 'center'}}>
-            <div>Join our <a href="https://www.collaborizm.com/project/H1DQb64zg" target="_blank">Project</a> on <a href="https://www.collaborizm.com" target="_blank">Collaborizm</a></div>
-            <div>&copy; BernieChat.com {new Date().getFullYear()}</div>
+            <div>Join our <a href="https://www.collaborizm.com/project/H1DQb64zg" target="_blank">Project</a> on <a href="https://www.collaborizm.com" target="_blank">Collaborizm</a>
+              {" "}|{" "}&copy; BernieChat.com {new Date().getFullYear()}</div>
           </div>
         </div>
       </div>

@@ -28,7 +28,7 @@ export default class Path extends Component {
       {joined, room} = this.props,
       {showedCopied} = this.state;
     
-    return <div style={{backgroundColor: '#fff', padding: '1.5rem', display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
+    return <div style={{padding: '1.5rem', display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
       {room ?
         <div onClick={this.copyUrl} style={{display: 'flex', justifyContent: 'center', flexDirection: 'column', alignItems: 'center'}}>
           <h1 style={{cursor: 'pointer'}}>Invite friends to chat as Bernie!</h1>
