@@ -43,7 +43,6 @@ class App extends Component {
   render() {
     const {room, joined, character} = this.state;
     
-    
     if (!webRTCSupport.support) {
       return <div className="App" style={{padding: '4rem', textAlign: 'center'}}>
         Not supported by your browser, try <a href="https://www.google.com/chrome/">Chrome</a>!

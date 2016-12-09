@@ -1,5 +1,5 @@
 import Puppet from '../components/Puppet';
-import system from './twil';
+import Twil from './Twil';
 
 export default class Logic {
   
@@ -12,15 +12,18 @@ export default class Logic {
     ];
     this.app = app;
     this.identies = {};
+    this.twil = new Twil({logic: this});
     
     window.onpopstate = (event) => {
-      if (document.location.pathname === '/') {
+      if (document.location.pathname === '/')
         app.setState({character: false});
-      }
     }
   }
   
   add = ({stream, identity, isSelf}) => {
+    if (isSelf)
+      this.selfIdentity = identity;
+    
     const puppet = new Puppet({stream, identity, isSelf, volumeUpdate: this.volumeUpdate, logic: this});
     this.identies[identity] = puppet;
   };
@@ -33,8 +36,6 @@ export default class Logic {
   setSelfCharacter = char => {
     this.selfCharacter = char;
     this.app.setState({character: char.key});
-    system.start(this);
-    
-    
+    this.twil.pushRoomToPath();
   };
 }

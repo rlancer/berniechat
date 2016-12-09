@@ -16,25 +16,21 @@ export default class Path extends Component {
   };
   
   get url() {
-    const { room} = this.props;
-    return `${this.isLocal ? 'http://localhost:3000' : 'https://bernie.chat'}/${room}`;
+    const {roomId} = this.logic.twil;
+    return `${this.isLocal ? 'http://localhost:3000' : 'https://bernie.chat'}/${roomId}`;
   }
   
   closeShowCopied = () =>
     this.setState({showedCopied: false});
   
   render() {
-    const
-      {joined, room} = this.props,
-      {showedCopied} = this.state;
-    
+    const {showedCopied} = this.state;
     return <div style={{padding: '1.5rem', display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
-      {room ?
-        <div onClick={this.copyUrl} style={{display: 'flex', justifyContent: 'center', flexDirection: 'column', alignItems: 'center'}}>
-          <h1 style={{cursor: 'pointer'}}>Invite friends to chat as Bernie!</h1>
-          <h2 style={{cursor: 'pointer'}}>{this.url}</h2>
-        </div> :
-        <h1>Connected to {joined} &middot; <a href="/">new session</a></h1>}
+      
+      <div onClick={this.copyUrl} style={{display: 'flex', justifyContent: 'center', flexDirection: 'column', alignItems: 'center'}}>
+        <h1 style={{cursor: 'pointer'}}>Invite friends &middot; {this.url}</h1>
+      </div>
+      
       <Snackbar autoHideDuration={2500} message='Copied to clipboard' open={showedCopied} onRequestClose={this.closeShowCopied}/>
     </div>;
     
