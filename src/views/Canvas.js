@@ -125,6 +125,8 @@ export default class Canvas extends Component {
         {!recording ?
           <button onClick={this.startRecord}>Start Record</button> :
           <button onClick={this.stopRecord}>Stop Recording</button>}
+        &nbsp;|&nbsp;
+        <button onClick={this.logic.changeMyCharacter}>Change My Character</button>
       </div>
     </div>;
   }

@@ -28,7 +28,7 @@ export default class Path extends Component {
     return <div style={{padding: '1.5rem', display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
       
       <div onClick={this.copyUrl} style={{display: 'flex', justifyContent: 'center', flexDirection: 'column', alignItems: 'center'}}>
-        <h1 style={{cursor: 'pointer'}}>Invite friends &middot; {this.url}</h1>
+        <h1 style={{cursor: 'pointer'}}>Invite friends &middot; {this.url} &middot; <a href="/">Leave room</a></h1>
       </div>
       
       <Snackbar autoHideDuration={2500} message='Copied to clipboard' open={showedCopied} onRequestClose={this.closeShowCopied}/>

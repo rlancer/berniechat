@@ -38,4 +38,8 @@ export default class Logic {
     this.app.setState({character: char.key});
     this.twil.pushRoomToPath();
   };
+  
+  changeMyCharacter = () => {
+    this.app.setState({character: false});
+  }
 }
