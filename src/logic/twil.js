@@ -30,6 +30,7 @@ export default {
     else {
       roomId = shortId.generate();
       logic.app.setJoinURL({room: roomId});
+      history.pushState({room: roomId}, "Chatting!", `/${roomId}`);
     }
     
     const {identity, token} = await getIdent();

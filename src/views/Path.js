@@ -16,7 +16,7 @@ export default class Path extends Component {
   };
   
   get url() {
-    const {joined, room} = this.props;
+    const { room} = this.props;
     return `${this.isLocal ? 'http://localhost:3000' : 'https://bernie.chat'}/${room}`;
   }
   

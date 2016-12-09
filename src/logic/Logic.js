@@ -12,6 +12,12 @@ export default class Logic {
     ];
     this.app = app;
     this.identies = {};
+    
+    window.onpopstate = (event) => {
+      if (document.location.pathname === '/') {
+        app.setState({character: false});
+      }
+    }
   }
   
   add = ({stream, identity, isSelf}) => {
@@ -28,5 +34,7 @@ export default class Logic {
     this.selfCharacter = char;
     this.app.setState({character: char.key});
     system.start(this);
+    
+    
   };
 }

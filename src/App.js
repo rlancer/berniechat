@@ -1,9 +1,8 @@
 import React, {Component} from 'react';
 import './App.css';
-import Path from './views/Path';
-import Canvas from './components/Canvas';
+import Canvas from './views/Canvas';
 import webRTCSupport from 'webrtcsupport';
-import Characters from './components/Characters';
+import Characters from './views/Characters';
 import Logic from './logic/Logic';
 
 let ids = 0;
@@ -25,6 +24,9 @@ class App extends Component {
     this.logic = new Logic(this);
   }
   
+  componentDidMount() {
+    
+  }
   
   setIdentity = identity =>
     this.setState({identity});
@@ -41,6 +43,7 @@ class App extends Component {
   render() {
     const {room, joined, character} = this.state;
     
+    
     if (!webRTCSupport.support) {
       return <div className="App" style={{padding: '4rem', textAlign: 'center'}}>
         Not supported by your browser, try <a href="https://www.google.com/chrome/">Chrome</a>!
@@ -49,17 +52,13 @@ class App extends Component {
     
     return (
       <div className="App" style={{display: 'flex', flexDirection: 'column'}}>
-        <div style={{display: character ? 'none' : ''}}>
-          <Characters/>
-        </div>
-        <div style={{display: character ? '' : 'none'}}>
-          <Path room={room} joined={joined}/>
-          <Canvas character={character} ref={this.refCanvas}/>
-        </div>
+        
+        <Characters style={{display: character ? 'none' : ''}}/>
+        <Canvas style={{display: character ? '' : 'none'}} room={room} character={character} ref={this.refCanvas}/>
+        
         <div style={{flex: 1, display: 'flex', alignItems: 'flex-end', justifyContent: 'center', padding: '2rem'}}>
-          <div style={{display: 'flex', justifyContent: 'center', flexDirection: 'column', alignItems: 'center'}}>
-            <div>Join our <a href="https://www.collaborizm.com/project/H1DQb64zg" target="_blank">Project</a> on <a href="https://www.collaborizm.com" target="_blank">Collaborizm</a>
-              {" "}|{" "}&copy; BernieChat.com {new Date().getFullYear()}</div>
+          <div style={{textAlign: 'center'}}>Join our <a href="https://www.collaborizm.com/project/H1DQb64zg" target="_blank">Project</a> on <a href="https://www.collaborizm.com" target="_blank">Collaborizm</a>
+            {" "}|{" "}&copy; BernieChat.com {new Date().getFullYear()}
           </div>
         </div>
       </div>

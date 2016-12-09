@@ -1,5 +1,5 @@
 import React from 'react';
-import Component from './Component'
+import Component from '../components/Component'
 
 
 export default class Characters extends Component {
@@ -8,7 +8,7 @@ export default class Characters extends Component {
     this.logic.setSelfCharacter(char);
   
   render() {
-    return <div>
+    return <div style={this.props.style}>
       <div style={{padding: '2rem', textAlign: 'center'}}>
         <h1>Pick your poison...</h1>
       </div>

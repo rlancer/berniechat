@@ -1,6 +1,8 @@
 import React from 'react';
-const WIDTH = 854, HEIGHT = 480;
+import Path from './Path';
 import Component from '../components/Component';
+
+const WIDTH = 854, HEIGHT = 480;
 
 export default class Canvas extends Component {
   
@@ -108,9 +110,14 @@ export default class Canvas extends Component {
   };
   
   render() {
-    const {recording} = this.state;
     
-    return <div>
+    const
+      {recording} = this.state,
+      {room} = this.props;
+    
+    return <div style={{flex: 1, ...this.props.style}}>
+      <Path room={room}/>
+      
       <div style={{display: 'flex', justifyContent: 'center'}}>
         <canvas width={WIDTH} height={HEIGHT} ref={this.canvRef}/>
       </div>
