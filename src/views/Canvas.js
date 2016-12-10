@@ -15,7 +15,7 @@ export default class Canvas extends Component {
   
   componentDidMount() {
     this.ctx = this._canvas.getContext('2d');
-    this.ctx.fillStyle = "#f00";
+    this.ctx.fillStyle = "#111";
     this.ctx.fillRect(0, 0, WIDTH, HEIGHT);
     
     const canvasStream = this._canvas.captureStream();
@@ -27,7 +27,7 @@ export default class Canvas extends Component {
   
   startAnimate = () => {
     this._animationFrame = window.requestAnimationFrame(this.startAnimate);
-    this.ctx.fillStyle = '#0ff';
+    this.ctx.fillStyle = '#111';
     this.ctx.fillRect(0, 0, WIDTH, HEIGHT);
     
     Object.values(this.logic.identies).forEach((pupet, index) => {
@@ -115,18 +115,17 @@ export default class Canvas extends Component {
       {recording} = this.state,
       {room} = this.props;
     
-    return <div style={{flex: 1, ...this.props.style}}>
+    return <div style={{...this.props.style, flexDirection: 'column', alignItems: 'center'}}>
       <Path room={room}/>
-      
-      <div style={{display: 'flex', justifyContent: 'center'}}>
+      <div style={{display: 'flex', flex: 1, alignItems: 'center', justifyContent: 'center', flexDirection: 'column',}}>
         <canvas width={WIDTH} height={HEIGHT} ref={this.canvRef}/>
-      </div>
-      <div style={{display: 'flex', justifyContent: 'center', padding: '1rem'}}>
-        {!recording ?
-          <button onClick={this.startRecord}>Start Record</button> :
-          <button onClick={this.stopRecord}>Stop Recording</button>}
-        &nbsp;|&nbsp;
-        <button onClick={this.logic.changeMyCharacter}>Change My Character</button>
+        <div style={{display: 'flex', justifyContent: 'center', padding: '1rem'}}>
+          {!recording ?
+            <button onClick={this.startRecord}>Start Record</button> :
+            <button onClick={this.stopRecord}>Stop Recording</button>}
+          &nbsp;|&nbsp;
+          <button onClick={this.logic.changeMyCharacter}>Change My Character</button>
+        </div>
       </div>
     </div>;
   }
