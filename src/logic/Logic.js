@@ -7,8 +7,8 @@ export default class Logic {
     this.characters = [
       {key: 'berine', path: 'Bernie.jpg', splitPoint: 236, width: 400, height: 400, name: 'Bernie'},
       {key: 'larryasbernie', path: 'LaryAsBerine.jpg', splitPoint: 133, width: 379, height: 400, name: 'Larry as Bernie'},
-      {key: 'trump', path: 'Trump.jpg', splitPoint: 133, width: 379, height: 400, name: 'Trump'},
-      {key: 'alecastrump', path: 'AlecAsTrump.jpg', splitPoint: 133, width: 379, height: 400, name: 'Alec as Trump'}
+      {key: 'trump', path: 'Trump.jpg', splitPoint: 159, width: 379, height: 400, name: 'Trump'},
+      {key: 'alecastrump', path: 'AlecAsTrump.jpg', splitPoint: 220, width: 379, height: 400, name: 'Alec as Trump'}
     ];
     this.app = app;
     this.identies = {};
