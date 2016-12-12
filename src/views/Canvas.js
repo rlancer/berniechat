@@ -30,16 +30,34 @@ export default class Canvas extends Component {
     this.ctx.fillStyle = '#111';
     this.ctx.fillRect(0, 0, WIDTH, HEIGHT);
     
-    Object.values(this.logic.identies).forEach((pupet, index) => {
+    const identities = Object.values(this.logic.identies);
+    
+    
+    identities.forEach((pupet, index) => {
       
-      if (!pupet.character)
+      const {character} = pupet;
+      
+      if (!character)
         return;
+      
+      
+      // console.log('pupet.width', pupet);
+      const count = identities.length;
+      
+      const QUAD = WIDTH / (identities.length + 1);
+      
+      const destWidth = character.width > QUAD ? QUAD : character.width;
+      const resize = (destWidth / character.width);
+      const destHeight = resize * character.height;
+      
+      
+      const half = (QUAD * (index + 1)) - (destWidth / 2);
+      
       
       const
         img = pupet.character.ref,
         vol = pupet.vol,
-        
-        xOffset = index * 330;
+        xOffset = half;
       
       let offset = vol - 1;
       
@@ -47,8 +65,9 @@ export default class Canvas extends Component {
         offset = 0;
       
       const {splitPoint, height, width} = pupet.character;
+      const splitPointResized = splitPoint * resize;
       
-      const zero = HEIGHT - height;
+      const zero = HEIGHT - (destHeight);
       
       const params = {
         img,
@@ -58,8 +77,8 @@ export default class Canvas extends Component {
         sh: splitPoint,
         dx: xOffset,
         dy: zero - offset,
-        dw: width,
-        dh: splitPoint
+        dw: destWidth,
+        dh: splitPointResized
       };
       
       const params2 = {
@@ -69,9 +88,9 @@ export default class Canvas extends Component {
         sw: width,
         sh: height - splitPoint,
         dx: xOffset,
-        dy: splitPoint + zero,
-        dw: width,
-        dh: height - splitPoint
+        dy: splitPointResized + zero,
+        dw: destWidth,
+        dh: (destHeight) - (splitPointResized)
       };
       
       this.ctx.drawImage(...Object.values(params));
