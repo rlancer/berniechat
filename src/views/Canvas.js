@@ -42,20 +42,15 @@ export default class Canvas extends Component {
       
       const {splitPoint, height, width} = character;
       
-      
       // console.log('pupet.width', pupet);
-      const count = identities.length;
-      
-      const QUAD = WIDTH / (count === 1 ? 2 : identities.length );
-      
-      // console.log(QUAD, identities.length + 1);
-      
       const
+        count = identities.length,
+        QUAD = WIDTH / (count === 1 ? 2 : identities.length),
         destWidth = character.width > QUAD ? QUAD : character.width,
         resize = (destWidth / character.width),
         destHeight = resize * character.height,
         splitPointResized = splitPoint * resize,
-        half = (QUAD * (count === 1 ? 1 : index)) + (count === 1 ? (destWidth / -2) : 0);
+        half = (QUAD * (count === 1 ? 1 : index)) + (count === 1 ? (destWidth / -2) : (QUAD - destWidth) / 2);
       
       
       const
