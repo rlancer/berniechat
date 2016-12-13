@@ -48,14 +48,14 @@ export default class Canvas extends Component {
       
       const QUAD = WIDTH / (count === 1 ? 2 : identities.length );
       
-      console.log(QUAD, identities.length + 1);
-      const destWidth = character.width > QUAD ? QUAD : character.width;
-      const resize = (destWidth / character.width);
-      const destHeight = resize * character.height;
-      const splitPointResized = splitPoint * resize;
+      // console.log(QUAD, identities.length + 1);
       
-      
-      const half = (QUAD * (index )); // - (destWidth / 2);
+      const
+        destWidth = character.width > QUAD ? QUAD : character.width,
+        resize = (destWidth / character.width),
+        destHeight = resize * character.height,
+        splitPointResized = splitPoint * resize,
+        half = (QUAD * (count === 1 ? 1 : index)) + (count === 1 ? (destWidth / -2) : 0);
       
       
       const
