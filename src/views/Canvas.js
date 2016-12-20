@@ -30,6 +30,19 @@ export default class Canvas extends Component {
     this.ctx.fillStyle = '#111';
     this.ctx.fillRect(0, 0, WIDTH, HEIGHT);
     
+    
+    const LOGO_WIDTH = 92.66 * 2.5, LOGO_HEIGHT = 9.67 * 2.5;
+    
+    const logoParams = {
+      img: this._logo,
+      sx: (WIDTH - LOGO_WIDTH) - 5,
+      sy: (HEIGHT - LOGO_HEIGHT) - 5,
+      sw: LOGO_WIDTH,
+      sh: LOGO_HEIGHT
+    };
+    
+    this.ctx.drawImage(...Object.values(logoParams));
+    
     const identities = Object.values(this.logic.identies);
     
     
@@ -92,13 +105,12 @@ export default class Canvas extends Component {
       
       this.ctx.drawImage(...Object.values(params));
       this.ctx.drawImage(...Object.values(params2));
+      
     });
   };
   
   canvRef = c => this._canvas = c;
-  
-  botRef = c => this._berBot = c;
-  topRef = c => this._berTop = c;
+  logoRef = c => this._logo = c;
   
   volumeUpdate = ({vol, index, identity}) =>
     this.volumes[identity] = vol;
@@ -141,6 +153,7 @@ export default class Canvas extends Component {
             <button onClick={this.stopRecord}>Stop Recording</button>}
           &nbsp;|&nbsp;
           <button onClick={this.logic.changeMyCharacter}>Change My Character</button>
+          <img src='/logo.svg' ref={this.logoRef} style={{display:'none'}} />
         </div>
       </div>
     </div>;
