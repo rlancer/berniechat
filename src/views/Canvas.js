@@ -2,7 +2,7 @@ import React from 'react';
 import Path from './Path';
 import Component from '../components/Component';
 
-const WIDTH = 854, HEIGHT = 480;
+const WIDTH = 854, HEIGHT = 480, BACKGROUND = '#062945';
 
 export default class Canvas extends Component {
   
@@ -15,7 +15,7 @@ export default class Canvas extends Component {
   
   componentDidMount() {
     this.ctx = this._canvas.getContext('2d');
-    this.ctx.fillStyle = "#111";
+    this.ctx.fillStyle = BACKGROUND;
     this.ctx.fillRect(0, 0, WIDTH, HEIGHT);
     
     const canvasStream = this._canvas.captureStream();
@@ -27,21 +27,12 @@ export default class Canvas extends Component {
   
   startAnimate = () => {
     this._animationFrame = window.requestAnimationFrame(this.startAnimate);
-    this.ctx.fillStyle = '#111';
+    this.ctx.fillStyle = BACKGROUND;
     this.ctx.fillRect(0, 0, WIDTH, HEIGHT);
     
     
     const LOGO_WIDTH = 92.66 * 2.5, LOGO_HEIGHT = 9.67 * 2.5;
     
-    const logoParams = {
-      img: this._logo,
-      sx: (WIDTH - LOGO_WIDTH) - 5,
-      sy: (HEIGHT - LOGO_HEIGHT) - 5,
-      sw: LOGO_WIDTH,
-      sh: LOGO_HEIGHT
-    };
-    
-    this.ctx.drawImage(...Object.values(logoParams));
     
     const identities = Object.values(this.logic.identies);
     
@@ -105,6 +96,7 @@ export default class Canvas extends Component {
       
       this.ctx.drawImage(...Object.values(params));
       this.ctx.drawImage(...Object.values(params2));
+      this.ctx.drawImage(this._logo, (WIDTH - LOGO_WIDTH) - 5, (HEIGHT - LOGO_HEIGHT) - 5, LOGO_WIDTH, LOGO_HEIGHT);
       
     });
   };
@@ -153,7 +145,7 @@ export default class Canvas extends Component {
             <button onClick={this.stopRecord}>Stop Recording</button>}
           &nbsp;|&nbsp;
           <button onClick={this.logic.changeMyCharacter}>Change My Character</button>
-          <img src='/logo.svg' ref={this.logoRef} style={{display:'none'}} />
+          <img src='/logo.svg' ref={this.logoRef} style={{display: 'none'}}/>
         </div>
       </div>
     </div>;
