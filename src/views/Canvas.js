@@ -18,8 +18,8 @@ export default class Canvas extends Component {
     this.ctx.fillStyle = BACKGROUND;
     this.ctx.fillRect(0, 0, WIDTH, HEIGHT);
     
-    const canvasStream = this._canvas.captureStream();
-    this.mediaRecorder = new window.MediaRecorder(canvasStream, {mimeType: 'video/webm; codecs=vp9'});
+    this.canvasStream = this._canvas.captureStream();
+    this.mediaRecorder = new window.MediaRecorder(this.canvasStream, {mimeType: 'video/webm; codecs=vp9'});
     this.mediaRecorder.ondataavailable = e => this.chunks.push(e.data);
     
     this.startAnimate();
@@ -30,12 +30,8 @@ export default class Canvas extends Component {
     this.ctx.fillStyle = BACKGROUND;
     this.ctx.fillRect(0, 0, WIDTH, HEIGHT);
     
-    
     const LOGO_WIDTH = 92.66 * 2.5, LOGO_HEIGHT = 9.67 * 2.5;
-    
-    
     const identities = Object.values(this.logic.identies);
-    
     
     identities.forEach((pupet, index) => {
       
@@ -56,7 +52,6 @@ export default class Canvas extends Component {
         splitPointResized = splitPoint * resize,
         half = (QUAD * (count === 1 ? 1 : index)) + (count === 1 ? (destWidth / -2) : (QUAD - destWidth) / 2);
       
-      
       const
         img = pupet.character.ref,
         vol = pupet.vol,
@@ -66,7 +61,6 @@ export default class Canvas extends Component {
       
       if (offset < 0)
         offset = 0;
-      
       
       const zero = HEIGHT - (destHeight);
       
@@ -97,18 +91,21 @@ export default class Canvas extends Component {
       this.ctx.drawImage(...Object.values(params));
       this.ctx.drawImage(...Object.values(params2));
       this.ctx.drawImage(this._logo, (WIDTH - LOGO_WIDTH) - 5, (HEIGHT - LOGO_HEIGHT) - 5, LOGO_WIDTH, LOGO_HEIGHT);
-      
     });
   };
   
   canvRef = c => this._canvas = c;
   logoRef = c => this._logo = c;
   
-  volumeUpdate = ({vol, index, identity}) =>
-    this.volumes[identity] = vol;
-  
   startRecord = () => {
     this.setState({recording: true});
+    
+    Object.values(this.logic.identies).forEach((pupet, index) => {
+      const audioTracks = pupet.stream.getAudioTracks();
+      if (audioTracks.length > 0)
+        this.canvasStream.addTrack(pupet.stream.getAudioTracks()[0]);
+    });
+    
     this.chunks = [];
     this.mediaRecorder.start();
   };

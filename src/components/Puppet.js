@@ -1,11 +1,12 @@
 // make this into a class to facilitate mounting and unmouting
 class Puppet {
   
-  constructor({stream, identity, isSelf, volumeUpdate, index, logic}) {
+  constructor({stream, identity, isSelf, index, logic}) {
     
     this.logic = logic;
     this.vol = 0;
     this.isSelf = isSelf;
+    this.stream = stream;
     
     if (!isSelf) {
       this.videoElement = document.createElement('VIDEO');
