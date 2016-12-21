@@ -100,6 +100,7 @@ export default class Canvas extends Component {
   startRecord = () => {
     this.setState({recording: true});
     
+    
     Object.values(this.logic.identies).forEach((pupet, index) => {
       const audioTracks = pupet.stream.getAudioTracks();
       if (audioTracks.length > 0)
@@ -113,6 +114,9 @@ export default class Canvas extends Component {
   stopRecord = () => {
     this.setState({recording: false});
     this.mediaRecorder.stop();
+    
+    this.canvasStream.getAudioTracks().forEach(track => this.canvasStream.removeTrack(track));
+    
     const now = new Date();
     const a = document.createElement("a");
     document.body.appendChild(a);
