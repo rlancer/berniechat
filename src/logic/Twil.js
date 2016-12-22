@@ -43,7 +43,8 @@ export default class Twil {
     const parts = path.split('/');
     this.roomId = parts[0].trim();
     
-    if (this.roomId.length > 0)
+    
+    if (this.roomId.length > 0 && this.roomId !== 'undefined')
       this.logic.app.setJoinedRoom({room: this.roomId});
     else {
       this.roomId = shortId.generate();

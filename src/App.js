@@ -55,11 +55,23 @@ class App extends Component {
         <Characters style={{display: character ? 'none' : ''}}/>
         <Canvas style={{display: character ? '' : 'none'}} room={room} character={character} ref={this.refCanvas}/>
         
+        
         <div style={{flex: 1, display: 'flex', alignItems: 'flex-end', justifyContent: 'center', padding: '2rem'}}>
-          <div style={{textAlign: 'center'}}>Join our <a href="https://www.collaborizm.com/project/H1DQb64zg" target="_blank">Project</a> on <a href="https://www.collaborizm.com" target="_blank">Collaborizm</a>
-            {" "}|{" "}&copy; Bernie.chat {new Date().getFullYear()}
-          </div>
+          Join our&nbsp;<a href="https://www.collaborizm.com/project/H1DQb64zg" target="_blank">Project</a>&nbsp;on&nbsp;<a href="https://www.collaborizm.com" target="_blank">Collaborizm</a>
+            &nbsp;|&nbsp;&copy; Bernie.chat {new Date().getFullYear()}&nbsp;|&nbsp;<iframe
+              src="https://www.facebook.com/plugins/like.php?href=https%3A%2F%2Fwww.facebook.com%2Fbernie.chat%2F&width=106&layout=button_count&action=like&size=small&show_faces=true&share=true&height=46&appId=1044425478981603"
+              width="106" height="23" style={{ border: 'none', overflow: 'hidden'}} scrolling="no" frameborder="0" allowTransparency="true"/>
+          
+        
+        
         </div>
+        
+        
+        
+       {/* <iframe
+          src="https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fwww.facebook.com%2Fbernie.chat&tabs&width=340&height=154&small_header=true&adapt_container_width=true&hide_cover=true&show_facepile=true&appId=165378603478066"
+          width="340" height="154" style={{alignSelf: 'center', paddingTop: '2rem', border: 'none', overflow: 'hidden'}} scrolling="no" frameborder="0" allowTransparency="true"/>*/}
+      
       </div>
     );
   }
