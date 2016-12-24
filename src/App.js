@@ -61,9 +61,6 @@ class App extends Component {
             &nbsp;|&nbsp;&copy; Bernie.chat {new Date().getFullYear()}&nbsp;|&nbsp;<iframe
               src="https://www.facebook.com/plugins/like.php?href=https%3A%2F%2Fwww.facebook.com%2Fbernie.chat%2F&width=106&layout=button_count&action=like&size=small&show_faces=true&share=true&height=46&appId=1044425478981603"
               width="106" height="23" style={{ border: 'none', overflow: 'hidden'}} scrolling="no" frameborder="0" allowTransparency="true"/>
-          
-        
-        
         </div>
         
         

@@ -65,6 +65,6 @@ export default class Twil {
   }
   
   pushRoomToPath() {
-    history.pushState({room: this.roomId}, "Chatting!", `/${this.roomId}`);
+  //   history.pushState({room: this.roomId}, "Chatting!", `/${this.roomId}`);
   }
 }
