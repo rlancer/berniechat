@@ -56,16 +56,16 @@ class App extends Component {
         <Canvas style={{display: character ? '' : 'none'}} room={room} character={character} ref={this.refCanvas}/>
         
         
-        <div style={{flex: 1, display: 'flex', alignItems: 'flex-end', justifyContent: 'center', paddingTop: '2rem'}}>
+        <div style={{flex: 1, display: 'flex', alignItems: 'flex-end', justifyContent: 'center', padding: '2rem 0'}}>
           Join our&nbsp;<a href="https://www.collaborizm.com/project/H1DQb64zg" target="_blank">Project</a>&nbsp;on&nbsp;<a href="https://www.collaborizm.com" target="_blank">Collaborizm</a>
           &nbsp;|&nbsp;&copy; Bernie.chat {new Date().getFullYear()}&nbsp;|&nbsp;
           | Venmo @berniedotchat
         </div>
-        <div style={{display: 'flex', justifyContent: 'center', paddingTop: '1rem'}}>
-          <iframe
-            src="https://www.facebook.com/plugins/like.php?href=https%3A%2F%2Fwww.facebook.com%2Fbernie.chat%2F&width=106&layout=button_count&action=like&size=small&show_faces=true&share=true&height=46&appId=1044425478981603"
-            width="106" height="23" style={{border: 'none', overflow: 'hidden'}} scrolling="no" frameborder="0" allowTransparency="true"/>
-        </div>
+        
+        <iframe
+          src="https://www.facebook.com/plugins/like.php?href=https%3A%2F%2Fwww.facebook.com%2Fbernie.chat%2F&width=106&layout=button_count&action=like&size=small&show_faces=true&share=true&height=46&appId=1044425478981603"
+          width="106" height="23" style={{zIndex: 10, position: 'fixed', top: 10, right: 10, border: 'none', overflow: 'hidden'}} scrolling="no" frameborder="0" allowTransparency="true"/>
+        
         
         {/* <iframe
          src="https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fwww.facebook.com%2Fbernie.chat&tabs&width=340&height=154&small_header=true&adapt_container_width=true&hide_cover=true&show_facepile=true&appId=165378603478066"
