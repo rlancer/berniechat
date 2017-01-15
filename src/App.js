@@ -59,7 +59,7 @@ class App extends Component {
         <div style={{flex: 1, display: 'flex', alignItems: 'flex-end', justifyContent: 'center', padding: '2rem 0'}}>
           Join our&nbsp;<a href="https://www.collaborizm.com/project/H1DQb64zg" target="_blank">Project</a>&nbsp;on&nbsp;<a href="https://www.collaborizm.com" target="_blank">Collaborizm</a>
           &nbsp;|&nbsp;&copy; Bernie.chat {new Date().getFullYear()}&nbsp;|&nbsp;
-          | Venmo @berniedotchat
+          Venmo @berniedotchat
         </div>
         
         <iframe

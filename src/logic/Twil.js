@@ -43,7 +43,6 @@ export default class Twil {
     const parts = path.split('/');
     this.roomId = parts[0].trim();
     
-    
     if (this.roomId.length > 0 && this.roomId !== 'undefined')
       this.logic.app.setJoinedRoom({room: this.roomId});
     else {
@@ -65,6 +64,6 @@ export default class Twil {
   }
   
   pushRoomToPath() {
-  //   history.pushState({room: this.roomId}, "Chatting!", `/${this.roomId}`);
+    //   history.pushState({room: this.roomId}, "Chatting!", `/${this.roomId}`);
   }
 }
