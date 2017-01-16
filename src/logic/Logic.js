@@ -12,6 +12,7 @@ export default class Logic {
       {key: 'putin', path: 'Putin.jpg', splitPoint: 164, width: 400, height: 344, name: 'Putin'},
       {key: 'obama', path: 'Obama.jpg', splitPoint: 151, width: 344, height: 400, name: 'Obama'}
     ];
+    
     this.app = app;
     this.identies = {};
     this.twil = new Twil({logic: this});
@@ -37,6 +38,7 @@ export default class Logic {
   
   setSelfCharacter = char => {
     this.selfCharacter = char;
+    this.twil.init(char.key);
     this.app.setState({character: char.key});
     this.twil.pushRoomToPath();
   };

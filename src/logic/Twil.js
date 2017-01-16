@@ -2,11 +2,8 @@ import firebase from './firebase';
 import request from 'superagent';
 import shortId from 'shortid';
 
-const getConfig = async() =>
-  (await request.get('https://debateoff-back-dqyngdjfkw.now.sh/twilio')).body;
-
-const getIdent = async() =>
-  (await request.get('https://debateoff-back-derdepupkp.now.sh/vid')).body;
+const getIdent = async(character) =>
+  (await request.get(`https://debateoff-back-agqllyxisq.now.sh/vid?character=${character}`)).body;
 
 // eslint-disable-next-line
 const twilio = Twilio;
@@ -21,11 +18,12 @@ export default class Twil {
   
   constructor({logic}) {
     this.logic = logic;
-    this.init();
   }
   
-  async init() {
-    const {identity, token} = await getIdent();
+  async init(character) {
+    console.log('init with char', character);
+    const {identity, token} = await getIdent(character);
+    console.log('identity', identity);
     this.logic.app.setIdentity(identity);
     this.identity = identity;
     this.client = new twilio.Video.Client(token);
