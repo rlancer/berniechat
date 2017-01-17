@@ -2,8 +2,11 @@ import firebase from './firebase';
 import request from 'superagent';
 import shortId from 'shortid';
 
-const getIdent = async(character) =>
-  (await request.get(`https://debateoff-back-agqllyxisq.now.sh/vid?character=${character}`)).body;
+const getIdent = async(character) => {
+  const now = 'https://debateoff-back-qfkezwpxqg.now.sh';
+  console.log('charrr', `${now}/vid?character=${character}`);
+  return (await request.get(`${now}/vid?character=${character}`)).body;
+}
 
 // eslint-disable-next-line
 const twilio = Twilio;
