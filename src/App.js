@@ -30,7 +30,6 @@ class App extends Component {
   
   setIdentity = identity => {
     this.setState({identity});
-    
   };
   
   setJoinURL = ({room}) =>
