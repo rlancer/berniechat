@@ -148,7 +148,7 @@ export default class Canvas extends Component {
             <button onClick={this.stopRecord}>Stop Recording</button>}
           &nbsp;|&nbsp;
           <button onClick={this.logic.changeMyCharacter}>Change My Character</button>
-          <img src='/logo.svg' ref={this.logoRef} style={{display: ''}}/>
+          <img src='/logo.svg' ref={this.logoRef} style={{display: 'none'}}/>
         </div>
       </div>
     </div>;
