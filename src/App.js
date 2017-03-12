@@ -63,7 +63,7 @@ class App extends Component {
         </div>
 
         <iframe
-          src="https://www.facebook.com/plugins/like.php?href=https%3A%2F%2Fwww.facebook.com%2Fbernie.chat%2F&width=106&layout=button_count&action=like&size=small&show_faces=true&share=true&height=46&appId=1044425478981603"
+          src="https://www.facebook.com/plugins/like.php?href=https%3A%2F%2Fwww.facebook.com%2Ftrumpaphone%2F&width=106&layout=button_count&action=like&size=small&show_faces=true&share=true&height=46"
           width="106" height="23" style={{zIndex: 10, position: 'fixed', top: 10, right: 10, border: 'none', overflow: 'hidden'}} scrolling="no" frameborder="0" allowTransparency="true"/>
 
 
