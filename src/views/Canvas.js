@@ -5,43 +5,44 @@ import Component from '../components/Component';
 const WIDTH = 854, HEIGHT = 480, BACKGROUND = '#062945';
 
 export default class Canvas extends Component {
-  
+
   constructor(props) {
     super(props);
     this.state = {recording: false};
     this.identies = {};
     this.chunks = [];
   }
-  
+
   componentDidMount() {
     this.ctx = this._canvas.getContext('2d');
     this.ctx.fillStyle = BACKGROUND;
     this.ctx.fillRect(0, 0, WIDTH, HEIGHT);
-    
+
     this.canvasStream = this._canvas.captureStream();
     this.mediaRecorder = new window.MediaRecorder(this.canvasStream, {mimeType: 'video/webm; codecs=vp9'});
     this.mediaRecorder.ondataavailable = e => this.chunks.push(e.data);
-    
+
     this.startAnimate();
   }
-  
+
   startAnimate = () => {
     this._animationFrame = window.requestAnimationFrame(this.startAnimate);
     this.ctx.fillStyle = BACKGROUND;
     this.ctx.fillRect(0, 0, WIDTH, HEIGHT);
-    
-    const LOGO_WIDTH = 92.66 * 2.5, LOGO_HEIGHT = 9.67 * 2.5;
+
+
+    const LOGO_WIDTH = 423.66, LOGO_HEIGHT = 27.93;
     const identities = Object.values(this.logic.identies);
-    
+
     identities.forEach((pupet, index) => {
-      
+
       const {character} = pupet;
-      
+
       if (!character)
         return;
-      
+
       const {splitPoint, height, width} = character;
-      
+
       // console.log('pupet.width', pupet);
       const
         count = identities.length,
@@ -51,19 +52,19 @@ export default class Canvas extends Component {
         destHeight = resize * character.height,
         splitPointResized = splitPoint * resize,
         half = (QUAD * (count === 1 ? 1 : index)) + (count === 1 ? (destWidth / -2) : (QUAD - destWidth) / 2);
-      
+
       const
         img = pupet.character.ref,
         vol = pupet.vol,
         xOffset = half;
-      
+
       let offset = vol - 1;
-      
+
       if (offset < 0)
         offset = 0;
-      
+
       const zero = HEIGHT - (destHeight);
-      
+
       const params = {
         img,
         sx: 0,
@@ -75,7 +76,7 @@ export default class Canvas extends Component {
         dw: destWidth,
         dh: splitPointResized
       };
-      
+
       const params2 = {
         img,
         sx: 0,
@@ -87,36 +88,37 @@ export default class Canvas extends Component {
         dw: destWidth,
         dh: (destHeight) - (splitPointResized)
       };
-      
+
       this.ctx.drawImage(...Object.values(params));
       this.ctx.drawImage(...Object.values(params2));
-      this.ctx.drawImage(this._logo, (WIDTH - LOGO_WIDTH) - 5, (HEIGHT - LOGO_HEIGHT) - 5, LOGO_WIDTH, LOGO_HEIGHT);
+      const cornerOffset = 10;
+      this.ctx.drawImage(this._logo, WIDTH - (LOGO_WIDTH + cornerOffset), HEIGHT - (LOGO_HEIGHT + cornerOffset), LOGO_WIDTH, LOGO_HEIGHT);
     });
   };
-  
+
   canvRef = c => this._canvas = c;
   logoRef = c => this._logo = c;
-  
+
   startRecord = () => {
     this.setState({recording: true});
-    
-    
+
+
     Object.values(this.logic.identies).forEach((pupet, index) => {
       const audioTracks = pupet.stream.getAudioTracks();
       if (audioTracks.length > 0)
         this.canvasStream.addTrack(pupet.stream.getAudioTracks()[0]);
     });
-    
+
     this.chunks = [];
     this.mediaRecorder.start();
   };
-  
+
   stopRecord = () => {
     this.setState({recording: false});
     this.mediaRecorder.stop();
-    
+
     this.canvasStream.getAudioTracks().forEach(track => this.canvasStream.removeTrack(track));
-    
+
     const now = new Date();
     const a = document.createElement("a");
     document.body.appendChild(a);
@@ -129,13 +131,13 @@ export default class Canvas extends Component {
     a.click();
     window.URL.revokeObjectURL(url);
   };
-  
+
   render() {
-    
+
     const
       {recording} = this.state,
       {room} = this.props;
-    
+
     return <div style={{...this.props.style, flexDirection: 'column', alignItems: 'center'}}>
       <Path room={room}/>
       <div style={{display: 'flex', flex: 1, alignItems: 'center', justifyContent: 'center', flexDirection: 'column',}}>
@@ -146,7 +148,7 @@ export default class Canvas extends Component {
             <button onClick={this.stopRecord}>Stop Recording</button>}
           &nbsp;|&nbsp;
           <button onClick={this.logic.changeMyCharacter}>Change My Character</button>
-          <img src='/logo.svg' ref={this.logoRef} style={{display: 'none'}}/>
+          <img src='/logo.svg' ref={this.logoRef} style={{display: ''}}/>
         </div>
       </div>
     </div>;
