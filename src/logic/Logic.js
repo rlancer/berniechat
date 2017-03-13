@@ -22,6 +22,7 @@ export default class Logic {
 
     this.app = app;
     this.identies = {};
+    console.log('this.identies',this.identies);
     this.twil = new Twil({logic: this});
 
     window.onpopstate = (event) => {
@@ -50,7 +51,7 @@ export default class Logic {
   setSelfCharacter = (char, view) => {
     this.selfCharacter = char;
     this.twil.init(char.key, view);
-    this.app.setState({character: char.key});
+  //  this.app.setState({character: char.key});
   };
 
   changeMyCharacter = () => {

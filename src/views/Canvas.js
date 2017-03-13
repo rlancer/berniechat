@@ -32,9 +32,11 @@ export default class Canvas extends Component {
 
 
     const LOGO_WIDTH = 423.66, LOGO_HEIGHT = 27.93;
+
     const identities = Object.values(this.logic.identies);
 
     identities.forEach((pupet, index) => {
+
 
       const {character} = pupet;
 

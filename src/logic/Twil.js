@@ -25,7 +25,7 @@ export default class Twil {
   async init(character) {
     console.log('init with char', character);
     const {identity, token} = await getIdent(character);
-    // this.logic.app.setIdentity(identity);
+    //this.logic.app.setIdentity(identity);
     this.identity = identity;
     this.client = new Video.Client(token);
     this.localMedia = new Video.LocalMedia();
@@ -50,7 +50,7 @@ export default class Twil {
 
       this.logic.history.push(`/${this.roomId}`, {});
     // }
-/*
+
     const room = await this.client.connect({to: this.roomId, localMedia: this.localMedia});
     this.logic.add({stream: this.mic.mediaStream, identity: room.localParticipant.identity, isSelf: true});
 
@@ -60,7 +60,7 @@ export default class Twil {
     room.on('participantDisconnected', (participant) =>
       this.logic.remove({identity: participant.identity}));
 
-    window.addEventListener('unload', () => room.disconnect());*/
+    window.addEventListener('unload', () => room.disconnect());
   }
 
 

@@ -41,7 +41,10 @@ export default class Characters extends Component {
                                                     flexDirection: 'column'
                                                   }}>
             <img style={{width: 220}} width={char.width} src={`/characters/${char.path}`} key={char.key}
-                 ref={c => char.ref = c}/>
+                 ref={c => {
+                   if (c != null)
+                     char.ref = c;
+                 }}/>
             <div>{char.name}</div>
           </div>)}
         </div>

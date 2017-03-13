@@ -41,7 +41,7 @@ class App extends Component {
     return <Router ref={this.routerRef}>
       <div>
         <Route path="/" exact={true} component={Characters}/>
-        <Route path="/:room" render={() => <div>CANVAS</div>}/>
+        <Route path="/:room" component={Canvas}/>
 
 
         <div style={{flex: 1, display: 'flex', alignItems: 'flex-end', justifyContent: 'center', padding: '2rem 0'}}>
