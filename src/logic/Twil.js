@@ -25,13 +25,11 @@ export default class Twil {
   async init(character) {
     console.log('init with char', character);
     const {identity, token} = await getIdent(character);
-    console.log('identity', identity);
-    this.logic.app.setIdentity(identity);
+    // this.logic.app.setIdentity(identity);
     this.identity = identity;
     this.client = new Video.Client(token);
     this.localMedia = new Video.LocalMedia();
     this.mic = await this.localMedia.addMicrophone();
-
     await this.start();
   }
 
@@ -43,14 +41,16 @@ export default class Twil {
     const parts = path.split('/');
     this.roomId = parts[0].trim();
 
-    if (this.roomId.length > 0 && this.roomId !== 'undefined')
-      this.logic.app.setJoinedRoom({room: this.roomId});
-    else {
+    // if (this.roomId.length > 0 && this.roomId !== 'undefined')
+    //    this.logic.app.setJoinedRoom({room: this.roomId});
+    // else {
       this.roomId = shortId.generate();
-      this.logic.app.setJoinURL({room: this.roomId});
-      this.pushRoomToPath();
-    }
+   //   this.logic.app.setJoinURL({room: this.roomId});
+     // this.pushRoomToPath();
 
+      this.logic.history.push(`/${this.roomId}`, {});
+    // }
+/*
     const room = await this.client.connect({to: this.roomId, localMedia: this.localMedia});
     this.logic.add({stream: this.mic.mediaStream, identity: room.localParticipant.identity, isSelf: true});
 
@@ -60,10 +60,8 @@ export default class Twil {
     room.on('participantDisconnected', (participant) =>
       this.logic.remove({identity: participant.identity}));
 
-    window.addEventListener('unload', () => room.disconnect());
+    window.addEventListener('unload', () => room.disconnect());*/
   }
 
-  pushRoomToPath() {
-    //   history.pushState({room: this.roomId}, "Chatting!", `/${this.roomId}`);
-  }
+
 }
